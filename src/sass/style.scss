@@ -127,11 +127,10 @@ data属性
   top: 0;
   left: 0;
   z-index: -1;
-  background-color: $black;
 }
 
 // ✅ svg
-.mouse-viewport{
+.c-cursor{
   position: fixed;
   top: 0;
   left: 0;
@@ -143,7 +142,7 @@ data属性
   transition: opacity .3s ease;
 }
 
-.mouse-viewport.is-visible{
+.c-cursor.is-visible{
   opacity: 1;
   // visibility: visible;
   // transition: opacity .3s ease;
@@ -152,7 +151,14 @@ data属性
 .disable-hover{
   pointer-events: none;
 
-  & .mouse-viewport{
+  & .c-cursor{
     opacity: 0 !important;
   }
+}
+
+// ✅ webgl
+.fallback{
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
 }

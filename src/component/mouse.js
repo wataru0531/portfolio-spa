@@ -45,14 +45,12 @@ function init(hideDefaultCursor = false, applyStyle = true) {
     x: viewport.width / 2,
     y: viewport.height / 2,
     r: 40,
+    // fill: "#00ff00", // 塗りつぶしの色
     fill: "#ffffff", // 塗りつぶしの色
-    fillOpacity: 0, // 塗りつぶしの色の透明度
+    fillOpacity: 0, // 塗りつぶしの色の透明度。1になるほど濃い
     strokeWidth: 1,
     scale: 1, // 拡大する時の係数
     mixBlendMode: "difference",
-
-    // opacity: 0,
-    // visibility: "hidden",
   };
 
   Object.assign(current, initial);
@@ -70,11 +68,7 @@ function init(hideDefaultCursor = false, applyStyle = true) {
   // console.log($.svg);
   $.svg.style.mixBlendMode = initial.mixBlendMode;
 
-  // $.svg.style.opacity = initial.opacity;
-  // $.svg.style.visibility = initial.visibility;
-  // $.svg.style.transition = "opacity .3s ease";
-
-  const circles = INode.qsAll("circle", $.svg); // クラス名, スコープ
+  const circles = INode.qsAll(".js-circle", $.svg); // クラス名, スコープ
   // console.log(circles)
   $.outerCircle = circles[0]; // 外側の円
   $.innerCircle = circles[1]; // 内側の円
@@ -91,6 +85,17 @@ function init(hideDefaultCursor = false, applyStyle = true) {
 
 // 
 function _bindEvents() {
+  window.addEventListener("pointermove", (event) => {
+    // stuck(張り付き)の要素の場合は、位置情報を更新しない。stuckの関数を優先する
+    if(mouse.shouldTrackMousePos) { // デフォルトではtrue
+      _updatePosition(event); // マウス座標を更新
+    }
+
+    // ✅ マウスに関する処理の関数を実行。ripple > index.jsで、onMouseMoveを格納
+    // console.log(mousemoveActions);
+    mousemoveActions.forEach(action => action?.(mouse)); 
+  });
+  
   document.addEventListener("pointerenter", (event) => {
     // $.svg.style.opacity = 1;
     // $.svg.style.visibility = "visible";
@@ -103,26 +108,15 @@ function _bindEvents() {
     $.svg.classList.remove("is-visible")
   });
 
-  window.addEventListener("pointermove", (event) => {
-    // stuck(張り付き)の要素の場合は、位置情報を更新しない。stuckの関数を優先する
-    if(mouse.shouldTrackMousePos) { // デフォルトではtrue
-      _updatePosition(event); // マウス座標を更新
-    }
 
-    // ✅ マウスに関する処理の関数を実行。ripple > index.jsで、onMouseMoveを格納
-    // console.log(mousemoveActions);
-    mousemoveActions.forEach(action => action?.(mouse)); 
-  });
-
-
-  // ✅　マウスの拡大、張り付きに関するデータ属性を持つ要素をループ
+  // ✅ ホバーアニメーションなど。マウス拡大、スタック
   // console.log($.transforms); // (20) [button.btn-menu, a.side__link, a.side__link, a.side__link, a.side__link, li.menu__li, li.menu__li, li.menu__li, li.menu__li, li.menu__li, div.fv__content, h1.fv__title, button.fv__btn.prev, button.fv__btn.next, div.vision__left, span.more-link__circle, span.more-link__circle, span.more-link__circle, a.footer__logo-link, span]
   $.transforms.forEach(el => {
     // console.log(el)
     const handlerType = INode.getDS(el, "mouse"); // data-mouse="stack"の時、stackを取得
     // console.log(handlerType); // highlight stack
     // console.log(handlers)
-    const handler = handlers[handlerType];
+    const handler = handlers[handlerType]; // highlight{}を取得
     // console.log(handler); // { enter: ƒ, leave: ƒ }
     if(!handler) return;
 
@@ -135,10 +129,26 @@ function _bindEvents() {
       el.addEventListener(`pointer${mouseType}`, (event) => {
         action(mouse, event); // mouseオブジェクト event
       });
-
     });
   });
 }
+
+// ✅ targetの値を更新する処理 → mouse-animation.js で使用
+function setTarget(_newTarget){
+  // targetオブジェクト を _newTargetオブジェクトで上書き
+  Object.assign(target, _newTarget); 
+}
+
+// stuck(張り付き)の時に位置情報を更新する
+function startTrackMousePos(){
+  mouse.shouldTrackMousePos = true;
+}
+
+// stuck(張り付き)の時に、位置情報の更新を停止させる
+function stopTrackMousePos(){
+  mouse.shouldTrackMousePos = false;
+}
+
 
 // ✅ マウス座標を更新
 function _updatePosition({ clientX, clientY }) {
@@ -207,7 +217,6 @@ function _updateValue(){
 // ✅ カーソルのCSSを更新
 function _updateStyle(){
   // console.log("_updateStyle running!!");
-  if(!isUpdate()) return; // カーソルが動いていないなら処理を止める
 
   $.innerCircle.setAttribute("cx", target.x); // innerにはtargetの値。常に追従なので
   $.innerCircle.setAttribute("cy", target.y);
@@ -228,15 +237,13 @@ function _updateStyle(){
   $.outerCircle.style.transform = `${rotate} ${scale}`;
 }
 
-// ✅　レンダー
-// bootstrap.jsのaddRenderActionに入れて更新
+// ✅　レンダー → bootstrap.jsのaddRenderActionに入れて更新
 function render(){
   if(utils.isTouchDevices) return; // タッチデバイスなら処理を止める
-
-  _updateValue(); // 値の更新
-
   if(!mouse.applyStyle) return; // カスタムサークルをあてないならなら処理を止める
-
+  if(!isUpdate()) return; // カーソルが動いていないなら処理を止める
+  
+  _updateValue(); // 値の更新
   _updateStyle(); // カーソルのCSS更新
 }
 
@@ -246,16 +253,15 @@ function _createCustomCursor(){
   // <g></g> グループ化を行う。スタイルや変換(移動や拡大縮小など)を一括で適用できる
   return INode.htmlToEl(`
     <svg
-      
-      class="mouse-viewport"
+      class="c-cursor"
       width="${viewport.width}"
       height="${viewport.height}"
       viewBox="0 0 ${viewport.width} ${viewport.height}"
       preserveAspectRatio="none meet"
     >
-      <g class="mouse-wrapper">
+      <g class="c-cursor__group">
         <circle 
-          class="circle outer" 
+          class="c-cursor__circle-outer js-circle" 
           r="${current.r}" 
           cx="${current.x}" 
           cy="${current.y}" 
@@ -266,7 +272,7 @@ function _createCustomCursor(){
           style="transform-origin: ${current.x}px ${current.y}px;"
         ></circle>
         <circle 
-          class="circle inner" 
+          class="c-cursor__circle-inner js-circle" 
           r="${3}" 
           cx="${current.x}" 
           cy="${current.y}" 
@@ -276,22 +282,6 @@ function _createCustomCursor(){
       </g>
     </svg>
   `);
-}
-
-// stuck(張り付き)の時に位置情報を更新する
-function startTrackMousePos(){
-  mouse.shouldTrackMousePos = true;
-}
-
-// stuck(張り付き)の時に、位置情報の更新を停止させる
-function stopTrackMousePos(){
-  mouse.shouldTrackMousePos = false;
-}
-
-// ✅ targetの値を更新する処理 → mouse-animation.js で使用
-function setTarget(_newTarget){
-  // targetオブジェクト を _newTargetオブジェクトで上書き
-  Object.assign(target, _newTarget); 
 }
 
 // ✅ クリップ座標の取得  -1 〜 1 で返す
@@ -331,7 +321,7 @@ function resize(){
   $.svg.setAttribute("viewBox", `0 0 ${viewport.width} ${viewport.height}`);
 }
 
-// 初期表示時にカスタムカーソルを非表示
+// ✅ 初期表示時にカスタムカーソルを非表示
 // 300ms毎に判定する
 function makeVisible(){
   const intervalId = setInterval(() => {

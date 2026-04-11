@@ -2,9 +2,17 @@
 // main.js
 
 // ✅ TODO
+// WebGLの実装の確認
+
 // 他のページ追加
+// → Worksを追加。/works/works1
+
+// ページ遷移後にWebGLの位置がおかしくなる問題
+
+// ⭐️デザインを決める
+// menu
+// スクロールアニメーション
 // metadata.js ... SEO
-// ハンバーガー
 
 
 import world from "./glsl/world";
@@ -16,7 +24,6 @@ import { menu } from "./component/menu";
 import { registerScrollAnimations } from "./component/scroll-animation.js";
 
 import { router } from "./router.js";
-
 
 
 // ✅ デバック 1ならデバッグモード
@@ -91,7 +98,8 @@ export async function init() {
   //   });
   // });
 
-  // ✅ svgカーソル
+  // ✅ カーソル
+  // TODO ホバー時にsvgサークルの色を要素ごとを変えれたら面白い
   mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
 
   // ✅ リサイズ処理をまとめる
@@ -116,13 +124,7 @@ export async function init() {
 
   await loader.letsBegin(); // ローディングのアニメーション発火(カウンターの削除、コンテンツを表示)
 
-  // ⭐️ここからここから⭐️ここからここから⭐️ここからここから⭐️ここからここから⭐️ここからここから
-  // ⭐️ここからここから⭐️ここからここから⭐️ここからここから⭐️ここからここから⭐️ここからここから
-  // mouse
-  // コードの確認から
-  // → クラス名変更、挙動確認、拡大/縮小の確認
-  // WebGLが表示されないので確認
-  mouse.makeVisible(); // 初期表示時にカスタムカーソルを非表示。300ms毎に判定
+  // mouse.makeVisible(); // 初期表示時にカスタムカーソルを非表示。300ms毎に判定
 }
 
 // guiを初期化、展開

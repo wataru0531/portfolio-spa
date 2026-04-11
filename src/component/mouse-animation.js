@@ -49,10 +49,9 @@ const stuck = {
 
     // console.log(rect.x, rect.width/2)
     _mouse.setTarget({ 
-      x: rect.x + rect.width / 2,  // x軸の位置
+      x: rect.x + rect.width / 2,  // x軸の位置 → x, yを固定する
       y: rect.y + rect.height / 2, // y軸
-      // マウスカーソルの半径に対するボタンの半径の割合を算出
-      scale: (rect.width / 2 / _mouse.initial.r) * scale,
+      scale: ((rect.width / 2) / _mouse.initial.r) * scale,
       fillOpacity: 1,
     });
   },

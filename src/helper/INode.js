@@ -28,7 +28,7 @@ const INode = {
     return target instanceof Element;
   },
 
-  // Domでもセレクタ文字のどちらでもDOMを返す
+  // ✅ DOMでもセレクタ文字のどちらでも確実にDOMを返す
   getElement(elementOrSelector) {
     // console.log(this.isElement(elementOrSelector))
     return this.isElement(elementOrSelector) ? elementOrSelector : this.qs(elementOrSelector);
@@ -42,11 +42,12 @@ const INode = {
   // データセットを渡されたkey情報をもとにして、data属性の値を取得
   // 例　data-mouse → INode(el, "mouse") → このdata-mouseの値を取得
   getDS(elementOrSelector, key) {
+    // console.log(key); // mouse
     const el = this.getElement(elementOrSelector);
     // console.log(el);
     // console.log(el.dataset); // DOMStringMap {page: 'home'}
 
-    return el.dataset?.[key];
+    return el.dataset?.[key]; // data-mouse="stuck"
   },
 
   // 指定された要素が特定のdata-属性を持っているかどうかを判定

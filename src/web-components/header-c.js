@@ -35,13 +35,25 @@ class Header extends HTMLElement {
 
         <nav class="p-header__global-nav p-global-nav">
           <ul class="p-global-nav__items">
-            <li class="p-global-nav__item">
+            <li 
+              class="p-global-nav__item"
+              data-mouse="stuck"
+              data-mouse-scale="2"
+            >
               <c-link href="/">Home</c-link>
             </li>
-            <li class="p-global-nav__item">
+            <li 
+              class="p-global-nav__item"
+              data-mouse="stuck"
+              data-mouse-scale="2"
+            >
               <c-link href="/about">About</c-link>
             </li>
-            <li class="p-global-nav__item">
+            <li 
+              class="p-global-nav__item"
+              data-mouse="stuck"
+              data-mouse-scale="2"
+            >
               <c-link href="https://wataru-code.com/watarudesign/" target="_blank">Wataru design</c-link>
             </li>
           </ul>
