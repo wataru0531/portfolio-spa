@@ -1,0 +1,13 @@
+/*******************************************************
+
+.l-global-container  body直下に配置。最低限の高さを確保するため
+
+********************************************************/
+@use '../global/' as *;
+
+.l-global-container{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #fff;
+}

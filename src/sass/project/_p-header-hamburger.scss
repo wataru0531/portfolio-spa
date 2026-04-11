@@ -1,0 +1,16 @@
+/*******************************************************
+
+.p-header-hamburger
+
+********************************************************/
+@use '../global/' as *;
+
+.p-header-hamburger{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.p-header-hamburger__btn{
+  margin-right: rem(7);
+}

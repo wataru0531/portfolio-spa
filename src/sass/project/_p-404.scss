@@ -1,0 +1,55 @@
+/*******************************************************
+
+.p-404
+
+********************************************************/
+@use '../global/' as *;
+
+
+.p-404{
+  height: calc(100vh - rem(55));
+}
+
+.p-404__inner{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.p-404__title{
+  font-family: $font-family-sub;
+  font-weight: 700;
+  font-size: rem(40);
+  line-height: 1;
+  letter-spacing: normal;
+  color: $text;
+  text-align: center;
+
+  @include mq('tab'){
+    font-size: rem(60);
+  }
+}
+
+.p-404__subtitle{
+  margin-top: rem(30);
+  font-weight: 500;
+  font-size: rem(14);
+  line-height: 1;
+  letter-spacing: normal;
+  color:  $text;
+  text-align: center;
+
+  @include mq('tab'){
+    margin-top: rem(40);
+    font-size: rem(16);
+  }
+}
+
+.p-404__btn{
+  margin-top: rem(60);
+  text-align: center;
+
+  @include mq('tab'){
+    margin-top: rem(70);
+  }
+}

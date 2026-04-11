@@ -1,0 +1,73 @@
+/*******************************************************
+
+.c-hamburger-btn ハンバーガーメニュー
+
+********************************************************/
+@use '../global/' as *;
+
+.c-hamburger-btn{
+  width: rem(25);
+  height: rem(15);
+  cursor: pointer;
+  position: relative;
+}
+
+.c-hamburger-btn span{
+  display: inline-block;
+  width: 100%;
+  height: rem(2);
+  background-color: $white;
+  border-radius: rem(1);
+  position: absolute;
+  transition: all .3s;
+}
+
+.c-hamburger-btn span:nth-child(1){
+  top: 0;
+  left: 0;
+  transform-origin: right;
+}
+.c-hamburger-btn span:nth-child(2){
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+// ２本目のspanに被せる。
+.c-hamburger-btn span:nth-child(2):after{
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: rem(2);
+  background-color: $white;
+  border-radius: rem(1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all .3s;
+}
+.c-hamburger-btn span:nth-child(3){
+  bottom: 0;
+  left: 0;
+  transform-origin: left;
+}
+
+// .is-transform付与
+// １本目
+.c-hamburger-btn.is-transform span:nth-child(1){
+  transform: scaleX(0);
+}
+
+// ２本目
+.c-hamburger-btn.is-transform span:nth-child(2){
+  transform: translateY(-50%) rotate(35deg);
+}
+
+// ２本目に被せた擬似湯素
+.c-hamburger-btn.is-transform span:nth-child(2):after{
+  transform: rotate(110deg);
+}
+
+// ３本目
+.c-hamburger-btn.is-transform span:nth-child(3){
+  transform: scaleX(0);
+}

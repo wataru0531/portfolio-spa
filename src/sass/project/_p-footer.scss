@@ -1,0 +1,22 @@
+/*******************************************************
+
+.p-footer
+
+********************************************************/
+@use '../global/' as *;
+
+.p-footer{
+  padding-top: rem(20);
+  padding-bottom: rem(20);
+  background-color: $bgFooter;
+}
+
+.p-footer__copyright{
+  font-family: $font-family-sub;
+  font-weight: 500;
+  font-size: rem(10);
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  color: $white;
+  text-align: center;
+}

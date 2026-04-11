@@ -1,0 +1,208 @@
+/*******************************************************
+
+.p-form
+
+********************************************************/
+@use '../global/' as *;
+
+// label上書き
+label{
+  display: inline-block;
+}
+
+.p-form__item:not(:first-child){
+  margin-top: rem(38);
+
+  @include mq('tab'){
+    margin-top: rem(40);
+  }
+  @include mq('pc'){
+    margin-top: rem(47);
+  }
+}
+
+// タイトル
+.p-form__title{
+  font-weight: bold;
+  font-size: rem(16);
+  line-height: 1.5;
+  letter-spacing: 0.004em;
+  color: $text;
+}
+
+// 必須項目には疑似要素で対応
+.p-form__title--required{
+  @extend .p-form__title;
+}
+.p-form__title--required::after{
+  content: '必須';
+  display: inline-block;
+  margin-left: rem(10);
+  padding-top: rem(5);
+  padding-bottom: rem(5);
+  padding-right: rem(5);
+  padding-left: rem(5);
+  font-weight: 500;
+  font-size: rem(12);
+  line-height: 1;
+  letter-spacing: 0.004em;
+  color: $white;
+  background-color: $text;
+}
+
+// 内容
+.p-form__content{
+  margin-top: rem(10);
+}
+
+// お問合わせ種別 radioボタン
+.p-form__radio{
+  margin-top: rem(20);
+}
+
+.p-form__radio .mwform-radio-field{
+  display: block;
+
+  @include mq('tab'){
+    display: inline-block;
+  }
+}
+
+.p-form__radio .mwform-radio-field:not(:first-child){
+  margin-top: rem(15);
+
+  @include mq('tab'){
+    margin-top: 0;
+  }
+}
+
+.p-form__radio .mwform-radio-field:not(:last-child){
+  @include mq('tab'){
+    margin-right: rem(50);
+  }
+}
+
+input[type="radio"] + span::before{
+  border: rem(1) solid $text;
+}
+input[type="radio"] + span::after{
+  background-color: $text;
+}
+
+// デフォルトのmargin-leftを消去
+.mw_wp_form .p-form__radio .mwform-radio-field.horizontal-item:not(:first-child){
+  margin-left: 0;
+}
+
+// 当サイトを知ったきっかけ checkbox
+// 個人情報の取り扱い .your-approval も同時に変更となる
+.p-form__checkbox{
+  margin-top: rem(20);
+}
+
+.p-form__checkbox .mwform-checkbox-field{
+  display: block;
+
+  @include mq('tab'){
+    display: inline-block;
+  }
+}
+
+.p-form__checkbox .mwform-checkbox-field:not(:first-child){
+  margin-top: rem(15);
+
+  @include mq('tab'){
+    margin-top: 0;
+  }
+}
+
+.p-form__checkbox .mwform-checkbox-field:not(:last-child){
+  @include mq('tab'){
+    margin-right: rem(50);
+  }
+}
+
+input[type="checkbox"] + span::before{
+  border: rem(1) solid $text;
+}
+input[type="checkbox"] + span::after{
+  border-bottom: rem(2) solid $text;
+  border-left: rem(2) solid $text;
+}
+
+// デフォルトのmargin-leftを消去
+.mw_wp_form .p-form__checkbox .mwform-checkbox-field.horizontal-item{
+  margin-left: 0;
+}
+
+// ご職業 セレクトボックス
+select{
+  border: rem(1) solid $text;
+}
+
+// お名前
+input[type="text"]{
+  border: rem(1) solid $text;
+}
+
+// メールアドレス
+input[type="email"]{
+  border: rem(1) solid $text;
+}
+
+// 電話番号
+input[type="tel"]{
+  border: rem(1) solid $text;
+}
+
+// mwwpフォーム導入で下のCSSがあてられる
+.p-form__tel input[type="text"]{
+  display: inline-block;
+  width: auto;
+}
+
+
+// お問い合せ内容
+textarea{
+  width: 100%;
+  height: rem(210);
+  border: rem(1) solid $text;
+  color: $text;
+}
+
+// プライバシーポリシー
+.p-form-privacy{
+  padding-top: rem(10);
+  padding-bottom: rem(10);
+  padding-right: rem(10);
+  padding-left: rem(10);
+  width: 100%;
+  height: rem(226);
+  border: rem(1) solid $text;
+  overflow: scroll;
+  font-weight: 500;
+  font-size: rem(14);
+  line-height: 1.71428571428;
+  letter-spacing: 0.004em;
+  color: $text;
+}
+
+.p-form-privacy__title{
+  font-weight: 700;
+}
+
+// 個人情報の取り扱いに同意
+.p-form__approval{
+  margin-top: rem(40);
+  text-align: center;
+}
+
+.p-form__approval .mwform-checkbox-field-text{
+  text-align-last: left;
+}
+
+.p-form__btn{
+  margin-top: rem(40);
+  text-align: center;
+}
+

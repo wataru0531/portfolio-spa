@@ -1,0 +1,21 @@
+/*******************************************************
+
+.p-lists-grid-04  2列 → 4列 → ４列
+
+********************************************************/
+@use '../global/' as *;
+
+.p-lists-grid-04{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(15);
+
+  @include mq('tab'){
+    grid-template-columns: repeat(4, 1fr);
+    gap: rem(25);
+  }
+  @include mq('pc'){
+    grid-template-columns: repeat(4, 1fr);
+    gap: rem(35);
+  }
+}

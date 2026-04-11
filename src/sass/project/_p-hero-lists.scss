@@ -1,0 +1,30 @@
+
+
+@use "../global/" as *;
+
+
+.p-hero-lists {
+
+}
+
+.p-hero-lists__upper,
+.p-hero-lists__lower {
+  padding: 0 rem(20);
+  width: 95%;
+    
+  @include mq("tab") {
+    width: 100%;
+  }
+}
+
+
+.p-hero-lists__upper {
+
+}
+
+.p-hero-lists__lower {
+
+}
+
+
+

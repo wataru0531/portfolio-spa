@@ -1,0 +1,158 @@
+@use './global/' as *;
+@use "sass:math";
+
+// globalはその他のフォルダで読み込むだけなのでここで読み込む必要はない。
+@use "./foundation"; 
+@use './layout';
+@use './component';
+@use './project';
+@use './utility';
+@use './external';
+
+
+// SPAのCSSを読み込み
+// htmlをフロックスに
+// Not Equalのcssを読み込む
+// uiフォルダの役立つutilityのcssなどを読み込む
+
+
+/*******************************************************
+
+
+
+********************************************************/
+// @use './global/' as *;
+
+
+/*******************************************************
+
+data属性
+
+********************************************************/
+// @use './global/' as *;
+
+
+[data-transition='container'] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+
+// ✅ ローディング
+.l-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.p-loader {
+  width: 100%;
+  height: 100%;
+  font-size: rem(20);
+  background: radial-gradient($black, #191919); // 内、外の順/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.p-loader__inner{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5;
+
+  animation: kf-slide-in .3s;
+}
+
+.p-loader__rect{
+  display: flex;
+}
+
+.p-loader__rect > span {
+  display: inline-block;
+  width: rem(4);
+  height: rem(16);
+  background-color: $white;
+  animation: kf-vertical-scaling 1s infinite ease;
+  
+  @for $i from 1 through 5 {
+    &:nth-child(#{$i}) {
+      animation-delay: .1s * $i - .5s;
+    }
+  }
+}
+
+.p-loader__rect span:not(:last-child){
+  margin-right: rem(4);
+}
+
+
+.p-loader__percent {
+  margin-left: rem(10);
+  padding-top: rem(5);
+  line-height: 1;
+  color: $white;
+}
+
+@keyframes kf-slide-in {
+  0% {
+    opacity: .3;
+    transform: translateX(rem(10));
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes kf-vertical-scaling {
+  0%{
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(.5);
+  }
+  100%{
+    transform: scaleY(1);
+  }
+}
+
+// ✅ canvas
+
+.c-canvas{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-color: $black;
+}
+
+// ✅ svg
+.mouse-viewport{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  
+  opacity: 0;
+  // visibility: hidden;
+  transition: opacity .3s ease;
+}
+
+.mouse-viewport.is-visible{
+  opacity: 1;
+  // visibility: visible;
+  // transition: opacity .3s ease;
+}
+
+.disable-hover{
+  pointer-events: none;
+
+  & .mouse-viewport{
+    opacity: 0 !important;
+  }
+}

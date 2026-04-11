@@ -1,0 +1,26 @@
+/*******************************************************
+
+.p-header
+
+********************************************************/
+@use '../global/' as *;
+
+
+.p-header {
+
+}
+
+.p-header__inner {
+
+  @include mq("tab") {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.p-header__global-nav {
+
+}
+
+

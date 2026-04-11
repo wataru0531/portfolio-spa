@@ -1,0 +1,103 @@
+/*******************************************************
+
+.p-about
+
+********************************************************/
+@use '../global/' as *;
+
+
+.p-about__inner{
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: rem(50);
+  padding-bottom: rem(50);
+  padding-right: rem(15);
+  padding-left: rem(15);
+  width: 100%;
+  max-width: rem(1100);
+
+  // background-image: url('../images/top_about.jpg');
+  // background-position: center;
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  position: relative;
+
+  @include mq('tab'){
+    padding-top: rem(60);
+    padding-bottom: rem(60);
+    padding-right: rem(30);
+    padding-left: rem(30);
+  }
+  @include mq('pc'){
+    padding-top: rem(110);
+    padding-bottom: rem(110);
+    padding-left: rem(50);
+  }
+}
+
+// .p-about__inner::before{
+//   content: '';
+//   display: block;
+//   width: 100%;
+//   height: 100%;
+//   background-color: rgba(0, 0, 0, .16);
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+// }
+
+.p-about__img{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.p-about__img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.p-about_box{
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: rem(50);
+  padding-bottom: rem(50);
+  padding-right: rem(15);
+  padding-left: rem(30);
+  width: 100%;
+  max-width: rem(590);
+  background-color: $white;
+  position: relative;
+  z-index: 100;
+
+  @include mq('tab'){
+    padding-top: rem(40);
+    padding-bottom: rem(40);
+    padding-right: rem(30);
+  }
+  @include mq('pc'){
+    margin-left: 0;
+    padding-top: rem(50);
+    padding-bottom: rem(50);
+  }
+}
+
+
+.p-about__description{
+  margin-top: rem(30);
+  font-weight: 500;
+  font-size: rem(14);
+  line-height: 2;
+  letter-spacing: normal;
+  color: $text;
+
+  @include mq('tab'){
+    font-size: rem(16);
+  }
+}
+
+.p-about__btn{
+  margin-top: rem(30);
+}

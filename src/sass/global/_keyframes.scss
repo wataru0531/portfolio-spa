@@ -1,0 +1,101 @@
+
+@use "./function" as *;
+
+
+/*******************************************************
+
+テキストを上に上げる ドロワーで使用
+
+********************************************************/
+
+@keyframes emergeUp {
+  0%{
+    top: 1em;
+  }
+  100%{
+    top: 0;
+  }
+}
+
+/*******************************************************
+
+画像を上に上げる ドロワーで使用
+
+********************************************************/
+@keyframes emergeUpImg {
+  0%{
+    // opacity: 0;
+    top: rem(43);
+  }
+  100%{
+    // opacity: 1;
+    top: 0;
+  }
+}
+
+
+/*******************************************************
+
+imageShow　画像を出現させる
+
+********************************************************/
+@keyframes imageShow {
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0;
+  }
+  50.1%{
+    opacity: 1;
+    // 100%に向かってscaleが1となる。
+    // transform: scale(1.5);
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+/*******************************************************
+
+coverSlide  imageShowと併用。
+
+********************************************************/
+@keyframes coverSlide {
+  0%{
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  50%{
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+  50.1%{
+    transform-origin: right;
+    transform: scaleX(1);
+  }
+  100%{
+    transform-origin: right;
+    transform: scaleX(0);
+  }
+}
+
+/*******************************************************
+
+layerSlide mvの上の黒レイヤー。左から右に流れる。
+
+********************************************************/
+@keyframes layerSlide {
+  0%{
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  50%{
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+  100%{
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+}

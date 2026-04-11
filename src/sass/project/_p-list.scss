@@ -1,0 +1,55 @@
+
+
+
+@use "../global/" as *;
+
+
+.p-list {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+  padding: rem(10) 0;
+  font-size: rem(12);
+  text-transform: uppercase;
+}
+
+.p-list__line {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: rem(1);
+  overflow: hidden;
+}
+
+.p-list__title{
+
+}
+
+.p-list__description {
+
+}
+
+.p-list__inner {
+  width: 100%;
+  height: 100%;
+  background-color: $black;
+}
+
+
+.js-line-left {
+  transform: translateX(100%);
+}
+
+.js-line-right {
+  transform: translateX(-100%);
+}
+
+.js-line-left,
+.js-line-right {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: rem(1000);
+}
+
+

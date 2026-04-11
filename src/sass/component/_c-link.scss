@@ -1,0 +1,28 @@
+
+// WebComponents
+
+@use "../global/" as *;
+
+
+.c-link {
+  display: block;
+  font-size: rem(13);
+  text-transform: uppercase;
+  position: relative;
+}
+
+.c-link__line {
+  display: block;
+  width: 100%;
+  height: 1px;
+  overflow: hidden;
+}
+
+.c-link__line-inner {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: $black;
+  transform: translateX(-100%) translateZ(0);
+  will-change: transform;
+}

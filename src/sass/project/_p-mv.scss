@@ -1,0 +1,101 @@
+/*******************************************************
+
+.p-mv
+
+********************************************************/
+@use '../global/' as *;
+
+// .p-mv{
+//   height: 100vh;
+// }
+
+// // 黒のバックグラウンド
+// .p-mv__background{
+//   width: 75.466666%;
+//   height: 100%;
+//   background-color: $bgMainVisual;
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   opacity: 0;
+
+//   @include mq('tab'){
+//     width: 73.177083%;
+//   }
+//   @include mq('pc'){
+//     width: 54.166666%;
+//   }
+// }
+// .p-mv__background.is-inview{
+//   opacity: 1;
+//   @include animation($name: layerSlide);
+// }
+
+
+// // 画像
+// .p-mv__img{
+//   width: 76.533333%;
+//   height: 86.956521739%;
+//   overflow: hidden;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+
+//   @include mq('tab'){
+//     width: 78.125%;
+//     height: 86.9140625%;
+//   }
+//   @include mq('pc'){
+//     width: 76.388888%;
+//     height: 86.486486%;
+//   }
+// }
+
+// // 画像
+// .p-mv__img img{
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+// }
+
+// // タイトル
+// .p-mv__titles{
+//   position: absolute;
+//   top: 50%;
+//   right: 5.333333vw;
+//   transform: translateY(-50%);
+//   z-index: 200;
+
+//   @include mq('tab'){
+//     right: 10.416666vw;
+//   }
+//   @include mq('tab'){
+//     right: 13.472222vw;
+//   }
+// }
+
+// .p-mv__subtitle{
+//   font-weight: bold;
+//   font-size: rem(16);
+//   line-height: 1.5;
+//   letter-spacing: 0.063em;
+//   color: $white;
+
+//   @include mq('pc'){
+//     font-size: rem(20);
+//   }
+// }
+
+// .p-mv__title{
+//   margin-top: rem(10);
+//   font-family: $font-family-sub;
+//   font-weight: 800;
+//   font-size: rem(56);
+//   line-height: 0.94642857142;
+//   letter-spacing: 0.063em;
+//   color: $white;
+
+//   @include mq('pc'){
+//     font-size: rem(72);
+//   }
+// }

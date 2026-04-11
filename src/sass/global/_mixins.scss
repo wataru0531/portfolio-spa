@@ -1,0 +1,44 @@
+@use './variable' as *;
+@use "sass:map"; // ビルトインモッジュール読み込み
+// 以前のmap-get()関数はmap.get(マップ名, キー)に変更。
+// DartSassではビルトインモジュールとなったため。
+
+/***************************************************************
+
+メディアクエリー
+
+***************************************************************/
+@mixin mq($breakpoint: tab) {
+	@media #{map.get($breakpoints, $breakpoint)} {
+		@content;
+	}
+}
+
+/***************************************************************
+
+アニメーション 
+animation...一括指定プロパティ
+animation: ①-name ②-duration ③-timing ④-delay ⑤-iteration ⑥-direction ⑦-fill ⑧-play;
+
+
+***************************************************************/
+@mixin animation(
+	// name以外はデフォルトを設定
+	$name,
+	$duration: 1s,
+	$timing-function: ease,
+	$delay: 0s,
+	$iteration-count: 1,
+	$direction: normal,
+	$fill-mode: forwards
+){
+	animation: {
+		name: $name;
+		duration: $duration;
+		timing-function: $timing-function;
+		delay: $delay;
+		iteration-count: $iteration-count;
+		direction: $direction;
+		fill-mode: $fill-mode;
+	}
+}

@@ -1,0 +1,49 @@
+
+
+
+@use "../global/" as *;
+
+
+.p-hero {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.p-hero__title {
+  padding-left: rem(1);
+  padding-right: rem(1);
+  font-size: 26vw;
+  line-height: 82%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.p-hero__content {
+  margin-bottom: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  opacity: 0;
+}
+
+
+.p-hero__lists {
+  margin-top: 80px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include mq("tab") {
+    flex-direction: row;
+  }
+}

@@ -1,0 +1,46 @@
+/*******************************************************
+
+.p-lists-grid-03
+
+********************************************************/
+@use '../global/' as *;
+
+.p-lists-grid-03{
+  @include mq('tab'){
+    display: grid;
+    // パターン1
+    // grid-template-columns: 33% 33% 33%;
+
+    // パターン2
+    // math.div(60px, 2)...30px
+    // repeat()...repeat(幅の数、各幅の値)
+    // grid-template-columns: repeat(2, calc(50% - math.div(rem(15), 2)));
+    
+    // パターン3
+    grid-template-columns: repeat(2, 1fr);
+
+    // パターン4
+    // minmax()...minmax(最小値, 最大値)
+    // grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+    gap: rem(15);
+  }
+  @include mq('pc'){
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+// gapなし
+.p-lists-grid-03-noGap{
+  // @extend .p-lists-grid-03;
+  
+  @include mq('tab'){
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  @include mq('tab'){
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

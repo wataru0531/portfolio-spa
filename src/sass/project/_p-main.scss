@@ -1,0 +1,13 @@
+
+@use "../global/" as *;
+
+
+.p-main {
+  background-color: $white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden; // 3Dかした時にテキストの裏を表示するかしないか。hiddenで非表示
+  transform: translateZ(0);
+}

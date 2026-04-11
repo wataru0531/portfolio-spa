@@ -1,0 +1,93 @@
+
+<!-- 
+  TODO
+  ◯ ページ追加
+  ◯ WebGLの処理追加
+
+  遷移後はトップに戻る
+  完成系のHTMLを入れておきたい
+
+  Footer追加
+  ローティングアニメーション
+  カーソルアニメーション → コンポーネントはWeb Componentsで行く
+  WebGL追加
+  ローディング
+
+-->
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asynchronous Page Transitions</title>
+  <meta name="description" content="In this tutorial, we'll build a lightweight async page transition system from scratch using vanilla JavaScript, GSAP, and Vite."/>
+  <link rel="icon" type="image/svg+xml" href="https://tympanus.net/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="https://tympanus.net/favicon/favicon.ico" />
+</head>
+
+<body>
+  <!-- カーソル -->
+
+  <!-- ローディング -->
+  <div class="l-loader p-loader" id="js-loader">
+    <div class="p-loader__inner">
+      <div class="p-loader__rect">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="p-loader__percent" id="js-loader-percent"></div>
+    </div>
+  </div>
+
+  <div className="l-global-container" id="js-global-container">
+    <!-- 
+      カスタムHTMLタグ
+      Web Components
+    -->
+    <c-header></c-header>
+
+    <!-- 
+      wrapperの中のcontainerを差し替えることでSPAを実現
+      containerの中にcurrentContainerとnextContainerの2つを入れて、
+      アニメーションを実現している
+    -->
+    <div 
+      id="js-container-wrapper" 
+      data-transition="container-wrapper"
+    >
+      <!-- currentContainer -->
+      <div data-transition="container" data-namespace="home">
+        <main class="l-main p-main" id="js-main">
+        </main>
+      </div>
+
+      <!-- nextContainerを差し込む → currentContainerを消す -->
+    </div>
+  
+    <!-- Footer -->
+
+    <canvas class="c-canvas" id="js-canvas"></canvas>
+
+    <!-- カーソル JSから挿入 -->
+    <!-- 
+      <svg style="opacity: 1; mix-blend-mode: difference;" class="mouse-viewport" width="890" height="1088" viewBox="0 0 890 1088" preserveAspectRatio="none meet">
+        <g class="mouse-wrapper">
+          <circle class="circle outer" r="40" cx="852.632707083543" cy="499.349160124065" fill="#ffffff" fill-opacity="0" stroke="#ffffff" stroke-width="1" style="transform-origin: 852.633px 499.349px; transform: rotate(-20.317deg) scale(1, 1);"></circle>
+          <circle class="circle inner" r="3" cx="852.6328125" cy="499.34912109375" fill="#ffffff" style="transform-origin: 445px 544px;"></circle>
+        </g>
+      </svg> 
+    -->
+  </div>
+
+  <!-- 
+    vite.config.jsでsrcが/となっているので
+  -->
+  <script type="module" src="/index.js"></script>
+</body>
+</html>

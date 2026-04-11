@@ -1,0 +1,61 @@
+/*******************************************************
+
+.c-btn
+
+********************************************************/
+@use '../global/' as *;
+
+.c-btn{
+  display: inline-block;
+  padding-top: rem(12);
+  padding-bottom: rem(12);
+  padding-right: rem(12);
+  padding-left: rem(12);
+  width: 100%;
+  max-width: rem(160);
+  font-family: $font-family-sub;
+  font-weight: 700;
+  font-size: rem(11);
+  line-height: 1;
+  letter-spacing: 0.015em;
+  // color: $black;
+  color: $white;
+  background-color: $black;
+  border: rem(1) solid $black;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 100;
+  transition: all .3s;
+}
+
+.c-btn::before{
+  @include mq('tab'){
+    content: '';
+    display: block;
+    width: 50%;
+    height: 100%;
+    // background-color: $black;
+    background-color: $white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -100;
+    opacity: 0;
+    transition: all .3s;
+  }
+}
+
+.c-btn:hover{
+  @include mq('tab'){
+    // color: $white;
+    color: $black;
+  }
+}
+
+.c-btn:hover::before{
+  @include mq('tab'){
+    width: 100%;
+    opacity: 1;
+  }
+}
