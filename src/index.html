@@ -32,7 +32,7 @@
   <!-- カーソル -->
 
   <!-- ローディング -->
-  <div class="l-loader p-loader" id="js-loader">
+  <!-- <div class="l-loader p-loader" id="js-loader">
     <div class="p-loader__inner">
       <div class="p-loader__rect">
         <span></span>
@@ -43,7 +43,94 @@
       </div>
       <div class="p-loader__percent" id="js-loader-percent"></div>
     </div>
-  </div>
+  </div> -->
+
+  <!-- preloader -->
+    <div class="l-preloader p-preloader">
+      <div class="p-preloader__row">
+        <p>Initiating</p>
+      </div>
+      <div class="p-preloader__row">
+        <div class="p-preloader__col">
+          <div class="p-sub-col">
+            <p>Phase 01</p>
+            <p>Sequence</p>
+          </div>
+          <div class="p-sub-col">
+            <p>Signal Scan</p>
+            <p>07 Layers</p>
+          </div>
+        </div>
+        <div class="p-preloader__col">
+          <p>PX-17</p>
+        </div>
+      </div>
+
+      <div class="p-preloader__btn p-preloader-btn">
+        <img class="p-preloader-btn__image" id="pbc-logo" src="/images/youtube.png" alt="">
+        <p id="p-preloader-btn__label">start</p>
+        <p id="p-preloader-btn__label__outro-label">Access Granted</p>
+
+        <div class="p-preloader-btn__svg-strokes">
+          <!-- <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="mouse-viewport"
+            style="background-color: lightgray;"
+            width="400"
+            height="400"
+            viewBox="0 0 200 400"
+            preserveAspectRatio="xMidYMid slice"
+          > -->
+          <!-- ⭐️TODO width heightなどの設定 -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 320 320"
+            fill="none" 
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <!-- 
+              stroke 線の色
+              stroke-width 線の太さ
+              stroke-dasharray 点線にする設定
+                              今回は円の全周の長さ
+              → なぜ974？ → 2πrは円周の長さ 
+                            2 * π * 155 = 974
+              ・stroke-dasharray 10だと、10の線 10の空白 10の線 ... のくらい返し
+              ・stroke-dashoffset 線の表示開始位置。プラスで右にずれる
+              👉 ここでは、演習分の長さが右にずれてみえないようになっている　
+
+              ✅ circleのラインの特徴
+              → 右(3時)から時計回りに引かれる
+            -->
+            <!-- グレーのcircle  -->
+            <circle 
+              class="stroke-track" 
+              cx="160" 
+              cy="160" 
+              r="155" 
+              stroke="#2b2b2b" 
+              stroke-width="5" 
+              stroke-dasharray="974" 
+              stroke-dashoffset="974" 
+            /> 
+
+            <!-- 白circle -->
+            <circle 
+              class="stroke-progress"
+              cx="160" 
+              cy="160" 
+              r="155" 
+              stroke="#fff" 
+              stroke-width="5" 
+              stroke-dasharray="974" 
+              stroke-dashoffset="974" 
+            /> 
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- preloader -->
+
 
   <div className="l-global-container" id="js-global-container">
     <!-- 
@@ -67,7 +154,7 @@
         </main>
       </div>
 
-      <!-- nextContainerを差し込む → currentContainerを消す -->
+      <!-- ✅ nextContainerを差し込む → currentContainerを消す -->
     </div>
   
     <!-- Footer -->

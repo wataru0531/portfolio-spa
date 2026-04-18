@@ -263,12 +263,12 @@ async function loadVideo(url) {
   });
 }
 
-// 合計(分母) +1
+// 分母 +1
 function incrementTotal() { 
   total++;
 }
 
-// テクスチャのロードに解決したら、分子に+1、ローディングの関数を発火させて描画の更新
+// 分子 +1。画面を更新
 function incrementProgress() {
   progress++;
 
@@ -302,6 +302,11 @@ function _loadingAnimationStart() {
     .set($.loader, {
       display: "none",
     });
+
+    // ✅ svgアニメーションの実行をここで
+
+
+
 
   return tl;
 }

@@ -11,8 +11,13 @@
 
 // ⭐️デザインを決める
 // menu
+// ローディング
+// 慣性スクロール
 // スクロールアニメーション
+// フォルダ構成の最適化
 // metadata.js ... SEO
+
+// microCMS
 
 
 import world from "./glsl/world";
@@ -72,12 +77,15 @@ export async function init() {
   const loaderPercent = INode.getElement("#js-loader-percent");
   // console.log(loaderPercent)
   loader.addProgressAction((progress, total) => {
-    loaderPercent.innerHTML = `${Math.round((progress / total) * 100)}%`; // round 四捨五入
-
     // console.log(progress, total)
+    // 👉 カウンター
+    loaderPercent.innerHTML = `${Math.round((progress / total) * 100)}%`; // round 四捨五入
+    
+    // 👉 svgの進行もここでできないか？
+    
   });
 
-  await loader.loadAllAssets(); // テクスチャをキャッシュとして保持
+  await loader.loadAllAssets(); // windowにテクスチャをキャッシュとして保持
 
   const bgColor = "none";
 
@@ -122,7 +130,8 @@ export async function init() {
 
   world.render();
 
-  await loader.letsBegin(); // ローディングのアニメーション発火(カウンターの削除、コンテンツを表示)
+  // ✅ 全てを読み込んでローディングのアニメーション発火(カウンターの削除、コンテンツを表示)
+  await loader.letsBegin(); 
 
   // mouse.makeVisible(); // 初期表示時にカスタムカーソルを非表示。300ms毎に判定
 }
