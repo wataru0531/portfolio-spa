@@ -166,14 +166,13 @@ data属性
 
 /*******************************************************
 
-preloader
+✅ loader
 
 ********************************************************/
 // @use './global/' as *;
 
 
-
-// .preloader-backdrop{
+// .loader-backdrop{
 //   width: 100%;
 //   height: 100svh;
 //   background-color: var(--base-100);
@@ -199,7 +198,7 @@ preloader
 // }
 
 /* ⭐️ TODO htmlのどこにあるか、ないなら追加 */
-.p-preloader__row .p-preloader-btn__image {
+.p-loader__row .p-loader-btn__logo {
   padding: 0.25rem;
   width: 2.5rem;
   height: 2.5rem;
@@ -216,12 +215,12 @@ preloader
 // }
 
 
-.l-preloader {
+.l-loader {
   position: fixed;
   z-index: 2;
 }
 
-.p-preloader p{
+.p-loader p{
   font-weight: 500;
   font-size: 0.75rem;
   line-height: 1;
@@ -229,15 +228,15 @@ preloader
 }
 
 h1 .word,
-.p-preloader p,
-.p-preloader .line {
+.p-loader p,
+.p-loader .line {
   position: relative;
   transform: translateY(100%);
   will-change: transform;
 }
 
 
-.p-preloader {
+.p-loader {
   width: 100%;
   height: 100svh;
   background-color: $black;
@@ -250,21 +249,21 @@ h1 .word,
   will-change: transform, clip-path;
 }
 
-.p-preloader__row{
+.p-loader__row{
   width: 100%;
   padding: 1.5rem;
   display: flex;
   justify-content: space-between;
 }
 
-.p-preloader__row,
-.p-preloader__col {
+.p-loader__row,
+.p-loader__col {
   display: flex;
   align-items: flex-end;
   gap: 6rem;
 }
 
-.p-preloader__btn {
+.p-loader__btn {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -272,52 +271,92 @@ h1 .word,
 }
 
 
-// .p-preloader-btn
-.p-preloader-btn{
+// .p-loader-btn
+.p-loader-btn{
   width: 20rem;
   height: 20rem;
 }
 
-.p-preloader__btn {
+.p-loader__btn {
   pointer-events: none; /* コンテナ自体はクリック無効 */
 }
 
-.p-preloader__btn svg {
+.p-loader__btn svg {
   pointer-events: none; /* SVG全体も無効 */
 }
 
 
-.stroke-track,
-.stroke-progress {
+/*******************************************************
+
+.p-svg-strokes
+
+********************************************************/
+.p-svg-strokes{
+
+}
+
+.p-svg-strokes__track,
+.p-svg-strokes {
   pointer-events: all; /* 線の部分だけクリック可能 */
 }
 
 /* svg関連 */
-.p-preloader-btn__svg-strokes,
-.p-preloader-btn__image,
-.p-preloader-btn__label,
-.p-preloader-btn__outro-label {
+.p-loader-btn__svg-strokes,
+.p-loader-btn__logo,
+.p-loader-btn__start,
+.p-loader-btn__end {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.p-preloader-btn__image {
+.p-loader-btn__logo {
   width: 4rem;
   height: 4rem;
 }
 
-.p-preloader-btn__label,
-.p-preloader-btn__outro-label {
+.p-loader-btn__start,
+.p-loader-btn__outro-label {
   font-size: 0.9rem;
 }
 
-.p-preloader-btn__svg-strokes,
-.p-preloader-btn__svg-strokes svg {
+.p-loader-btn__svg-strokes,
+.p-loader-btn__svg-strokes svg {
   width: 100%;
   height: 100%;
 }
+
+
+/*******************************************************
+
+c-svg-track
+
+********************************************************/
+// @use './global/' as *;
+
+
+
+/*******************************************************
+
+c-svg-progress
+
+********************************************************/
+// @use './global/' as *;
+
+
+
+/*******************************************************
+
+c-countup
+
+********************************************************/
+// @use './global/' as *;
+.c-countup {
+  overflow: hidden;
+}
+
+
 
 /* ⭐️ 7:08から */
 /* https://www.youtube.com/watch?v=z_0H7wLyX3A */
@@ -338,7 +377,7 @@ h1 .word,
 //   will-change: transform;
 // }
 
-// .hero .preloader-revealer {
+// .hero .loader-revealer {
 //   width: 100%;
 //   height: 100%;
 //   background-color: var(--base-100);
@@ -354,13 +393,10 @@ h1 .word,
 // }
 
 @media only screen and (max-width: 768px) {
-  .p-preloader__row .p-preloader__col:nth-child(1),
-  .p-preloader__row .p-preloader__col:nth-child(2),
-  .p-preloader__row .p-preloader__col:nth-child(3) {
+  .p-loader__row .p-loader__col:nth-child(1),
+  .p-loader__row .p-loader__col:nth-child(2),
+  .p-loader__row .p-loader__col:nth-child(3) {
     display: none;
   }
-
-
-
 }
 

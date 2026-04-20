@@ -9,8 +9,14 @@
 ・ローディングアニメーションの処理
 ***************************************************************/
 import gsap from "gsap";
-import { LinearFilter, TextureLoader, VideoTexture } from "three";
+import { SplitText } from "gsap/SplitText";
+import { CustomEase } from "gsap/CustomEase";
+gsap.registerPlugin(SplitText, CustomEase);
 
+CustomEase.create("hop", "0.9, 0, 0.1, 1");
+CustomEase.create("glide", "0.8, 0, 0.2, 1");
+
+import { LinearFilter, TextureLoader, VideoTexture } from "three";
 import { INode } from "../helper";
 
 const texLoader = new TextureLoader();
@@ -39,7 +45,7 @@ const $ = {}; // DOM要素
 
 async function init() {
   $.globalContainer = INode.getElement("#js-global-container");
-  $.loader = INode.getElement("#js-loader");
+  $.countup = INode.getElement("#js-countup");
 }
 
 // ✅ 全てのURLを取得して、url => テクスチャ の状態でtextureCacheに格納
@@ -279,7 +285,7 @@ function incrementProgress() {
   // console.log(progress, total);
 }
 
-// 実行したいアニメーションの関数を渡す
+// ✅ カウントアップのアニメーションのコールバックを渡す
 function addProgressAction(_callback) {
   _progressAction = _callback;
 }
@@ -288,24 +294,185 @@ function addProgressAction(_callback) {
 function _loadingAnimationStart() {
   const tl = gsap.timeline();
 
-  // タイムラインで処理をつないでいく
-  tl.to($.loader.firstElementChild, {
-    // $.loader.firstElementChild ... loader-inner
-    opacity: 0,
-    y: 10,
+  // ① ⭐️ カウントアップに関するアニメーション
+  tl.to($.countup.firstElementChild, {
+    // $.countup.firstElementChild ... .c-countup__inner
+    // opacity: 0,
+    // y: -10,
+    y: "-100%",
     duration: .3,
     delay: 0.8, 
   })
-    .set($.globalContainer, {
-      visibility: "visible",
-    })
-    .set($.loader, {
-      display: "none",
+    // .set($.globalContainer, {
+    //   visibility: "visible",
+    // })
+    // .set($.countup, {
+    //   display: "none",
+    // });
+
+    // ////////////////////////////////////////////////////////////////////
+    // ② ⭐️ SVGアニメーション
+    ///////////////////////////////////////////////////////////////////////
+    let preloaderComplete = false;
+
+    const preloaderTexts = [...document.querySelectorAll(".p-loader p")];
+    // console.log(preloaderTexts); 
+    // (7) [p, p, p, p, p, p#js-loader-start, p#js-loader-end]
+    
+    const preloaderBtn = INode.getElement("#js-loader-btn");
+    const svgTrack = INode.getElement("#js-svg-track"); // 1つめのグレーcircle
+    const svgProgress = INode.getElement("#js-svg-progress"); // 2つ目の白circle
+    // console.log(svgProgress);
+
+    const svgPathLength = svgTrack.getTotalLength();
+    // console.log(svgPathLength); // 円周の長さ。973.5000610351562
+
+    // JSでも制御する。見た目を担保、ブラウザによって異なるかもしれないから
+    gsap.set([svgTrack, svgProgress], {
+      strokeDasharray: svgPathLength,
+      strokeDashoffset: svgPathLength,
     });
 
-    // ✅ svgアニメーションの実行をここで
+    preloaderTexts.forEach(p => { // テキスト分割
+      new SplitText(p, {
+        type: "lines",
+        linesClass: "line",
+        mask: "lines",
+      });
+    });
+
+    // new SplitText(".hero h1", { // ヒーロー
+    //   type: "words",
+    //   wordsClass: "word",
+    //   mask: "words"
+    // });
+
+    const introTl = gsap.timeline({ delay: 1 });
+    introTl
+    .to(".p-loader .p-loader__row p .line", { // CSS側でY軸下100%に
+      y: "0%",
+      ease: "power3.out",
+      duration: .75,
+      stagger: {
+        each: .1
+      }
+    })
+    .to(svgTrack, { // グレーcircle
+      strokeDashoffset: 0,
+      duration: 2,
+      ease: "hop",
+    }, "<") // 直前のトゥイーンの開始時
+    .to(".p-svg-strokes svg", { // ⭐️svg自体を回転させる
+      rotation: 270,
+      duration: 2,
+      ease: "hop",
+    }, "<");
+
+    // ✅ 白circleをどこで止めるかの値を算出
+    const progressStops = [0.2, 0.25, 0.85, 1].map((base, idx) => {
+      if(idx === 3) return 1;
+      return base + (Math.random() - .5) * 0.1; // 元の値 + (- 0.5 〜　0.5) * 0.1
+                                                // → 元の値　+ (- 0.05 〜 0.05)
+    });
+    // console.log(progressStops); // 4) [0.2462, 0.2155, 0.857, 1]
+
+    // ⭐️ 段階的に白ラインを動かす 
+    // → ⭐️ ここをテクスチャの読み込みと同期できないか？
+    progressStops.forEach((stop, idx) => {
+      introTl.to(svgProgress, { // 白circle
+        // strokeDashoffset → 右側にどれだけ押し込んでいるか
+        strokeDashoffset: svgPathLength - (svgPathLength * stop),
+        duration: 0.75,
+        ease: "glide",
+        delay: idx === 0 ? 0.3 : 0.3 + (Math.random() * 0.2), // 0.3 + 0から0.02の範囲で差を付ける
+      })
+    });
+
+    introTl
+    .to("#js-loader-logo", { // ロゴ
+      opacity: 0,
+      duration: .35,
+      ease: "power1.out",
+    }, "-=0.25") // 直前のトゥイーンの終了に何秒だけ重ねるか
+    .to(preloaderBtn, { // 中央の円のコンテナ
+      scale: .9,
+      duration: 1.5,
+      ease: "hop",
+    }, "-=0.5")
+    .to("#js-loader-start .line", { // "start"
+      y: "0%",
+      duration: 0.75,
+      ease: "power3.out",
+      onComplete: () => {
+        preloaderComplete = true;
+      }
+    }, "-=0.75")
 
 
+    // ✅ 中央のコンテナクリック
+    svgProgress.addEventListener("click", () => { 
+      if(!preloaderComplete) return;
+
+      preloaderComplete = false;
+
+      const exitTl = gsap.timeline();
+      exitTl
+      // .to("#js-loader", {
+      //   scale: 0.75,
+      //   duration: 1.25,
+      //   ease: "hop",
+      // })
+      .to([svgTrack, svgProgress], {
+        strokeDashoffset: -svgPathLength,
+        duration: 1.25,
+        ease: "hop",
+      }, "<")
+      .to(".p-svg-strokes svg", { // ⭐️svg自体をさらに270度プラスで回転
+        rotation: 540,
+        duration: 2,
+        ease: "hop",
+      }, "<")
+      .to("#js-loader-start .line", { // "start"
+        y: "-100%",
+        duration: 0.75,
+        ease: "power3.out",
+      }, "-=1.25")
+      .to("#js-loader-end .line", {
+        y: "0%",
+        duration: 0.75,
+        ease: "power3.out",
+      }, "-=0.75") // // 直前のトゥイーンの終了に何秒だけ重ねるか
+      .to("#js-loader", {
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)", // 上に上げる
+        duration: 1.5,
+        ease: "hop"
+      })
+      // .to(".preloader-revealer", { // heroの中のrevealer
+      //   clipPath: "polygon(0% 0%, 100% 0% , 100% 0%, 0% 0%)",
+      //   duration: 1.5,
+      //   ease: "hop",
+      //   onComplete: () => {
+      //     gsap.set(".preloader", { display: "none" })
+      //   }
+      // }, "-=1.45")
+      // .to(".hero", {
+      //   scale: 1,
+      //   duration: 1.25,
+      //   ease: "hop",
+      // })
+      // .to(".hero h1 .word", {
+      //   y: "0%",
+      //   duration: 1,
+      //   ease: "glide",
+      //   stagger: {
+      //     each: 0.05,
+      //   }
+      // }, "-=1.75")
+      .to("#js-loader", {
+        display: "none",
+      })
+      
+    })
 
 
   return tl;
@@ -322,13 +489,15 @@ async function _loadingAnimationEnd(_tl){
     _tl.to(containerWrapper, {
       opacity: 1,
       duration: 1,
-  
       onComplete: () => {
         loader.isLoaded = true;
         resolve();
       }
-    });
+    })
   })
+
+  // ✅ preloaderが終わった後の処理
+
   
 }
 
@@ -339,7 +508,7 @@ function addLoadingAnimation(_loadingAnimation){
 }
 
 async function letsBegin() { // ローディングアニメーションを発火させるための関数
-  const tl = _loadingAnimationStart();
+  const tl = _loadingAnimationStart(); // ローディング開始
 
   // ローディング中のアニメーションを実行
   loadingAnimation && loadingAnimation(tl);

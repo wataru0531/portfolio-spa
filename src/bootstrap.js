@@ -12,6 +12,9 @@
 // ⭐️デザインを決める
 // menu
 // ローディング
+// SVGで幾何学のオブジェクトを。circle、rectなど
+// マウスの出現タイミングを制御
+
 // 慣性スクロール
 // スクロールアニメーション
 // フォルダ構成の最適化
@@ -69,23 +72,28 @@ export async function init() {
   // ✅ ローディングで使うDOMを取得
   loader.init();
 
-  // GPUパフォーマンス測定
+  // ✅ GPUパフォーマンス測定
   // ここではtierが2, 50fpsでない場合は各index.jsでメッシュの作成をスキップ
   await utils.definePerformanceMode(1, 20);
   
-  // 数値のカウントアップ
-  const loaderPercent = INode.getElement("#js-loader-percent");
+  // ✅ 数値のカウントアップの事前準備 + preloaderのアニメーション。
+  // const countup = INode.getElement("#js-countup");
+  const countupInner = INode.getElement("#js-countup-inner");
   // console.log(loaderPercent)
   loader.addProgressAction((progress, total) => {
     // console.log(progress, total)
     // 👉 カウンター
-    loaderPercent.innerHTML = `${Math.round((progress / total) * 100)}%`; // round 四捨五入
+    countupInner.innerHTML = `${Math.round((progress / total) * 100)}%`; // round 四捨五入
     
-    // 👉 svgの進行もここでできないか？
+    // 👉 TODO SVGの進行も追加 
+    // → テクスチャの読み込みに同意させる場合。速すぎて厳しい。
+
     
   });
 
-  await loader.loadAllAssets(); // windowにテクスチャをキャッシュとして保持
+  await loader.loadAllAssets(); // windowにテクスチャをキャッシュとして保持する。
+                                // 読み込むまで待機させる
+                                // 👉 カウントアップのアニメーションもここで行う
 
   const bgColor = "none";
 

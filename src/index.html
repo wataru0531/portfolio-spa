@@ -46,12 +46,12 @@
   </div> -->
 
   <!-- preloader -->
-    <div class="l-preloader p-preloader">
-      <div class="p-preloader__row">
+    <div class="l-loader p-loader" id="js-loader">
+      <div class="p-loader__row">
         <p>Initiating</p>
       </div>
-      <div class="p-preloader__row">
-        <div class="p-preloader__col">
+      <div class="p-loader__row">
+        <div class="p-loader__col">
           <div class="p-sub-col">
             <p>Phase 01</p>
             <p>Sequence</p>
@@ -61,17 +61,23 @@
             <p>07 Layers</p>
           </div>
         </div>
-        <div class="p-preloader__col">
+        <div class="p-loader__col">
           <p>PX-17</p>
         </div>
       </div>
 
-      <div class="p-preloader__btn p-preloader-btn">
-        <img class="p-preloader-btn__image" id="pbc-logo" src="/images/youtube.png" alt="">
-        <p id="p-preloader-btn__label">start</p>
-        <p id="p-preloader-btn__label__outro-label">Access Granted</p>
+      <div class="p-loader__btn p-loader-btn" id="js-loader-btn">
+        <img class="p-loader-btn__logo" id="js-loader-logo" src="/images/youtube.png" alt="">
+        <p class="p-loader-btn__start" id="js-loader-start">start</p>
+        <p class="p-loader-btn__end" id="js-loader-end">Access Granted</p>
 
-        <div class="p-preloader-btn__svg-strokes">
+        <!-- カウントアップ -->
+        <div class="p-loader-btn__coutup c-countup" id="js-countup">
+          <div class="c-countup__inner" id="js-countup-inner"></div>
+        </div>
+
+        <!-- SVGアニメーション -->
+        <div class="p-loader-btn__svg-strokes p-svg-strokes">
           <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
             class="mouse-viewport"
@@ -104,26 +110,30 @@
             -->
             <!-- グレーのcircle  -->
             <circle 
-              class="stroke-track" 
+              class="p-svg-strokes__track c-svg-track"
+              id="js-svg-track" 
               cx="160" 
               cy="160" 
               r="155" 
               stroke="#2b2b2b" 
-              stroke-width="5" 
+              stroke-width="1" 
               stroke-dasharray="974" 
-              stroke-dashoffset="974" 
+              stroke-dashoffset="974"
             /> 
 
             <!-- 白circle -->
             <circle 
-              class="stroke-progress"
+              class="p-svg-strokes c-svg-progress"
+              id="js-svg-progress"
               cx="160" 
               cy="160" 
               r="155" 
               stroke="#fff" 
-              stroke-width="5" 
+              stroke-width="1" 
               stroke-dasharray="974" 
               stroke-dashoffset="974" 
+              data-mouse="stuck"
+              data-mouse-scale="1"
             /> 
           </svg>
         </div>
