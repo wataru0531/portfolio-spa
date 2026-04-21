@@ -6,7 +6,17 @@
 ✅ getTexByElement ... キャッシュから画像を取得
 → "tex1" => Texture　この形で取得
 
-・ローディングアニメーションの処理
+
+
+✅ テキスト関係の配置がおかしい。
+✅ 初期表示がおかしい
+✅ pタグなどをgsapで制御せずにCSSのみで、overflow: hidden;、y: 100%にしておく。
+
+✅ SVGのアニメーションとテクスチャのロードを同期させるかどうか
+
+✅　カウントアップと、SVGアニメーションを分けるかどうか
+
+
 ***************************************************************/
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
@@ -315,7 +325,7 @@ function _loadingAnimationStart() {
     ///////////////////////////////////////////////////////////////////////
     let preloaderComplete = false;
 
-    const preloaderTexts = [...document.querySelectorAll(".p-loader p")];
+    // const preloaderTexts = [...document.querySelectorAll(".p-loader p")];
     // console.log(preloaderTexts); 
     // (7) [p, p, p, p, p, p#js-loader-start, p#js-loader-end]
     
@@ -333,13 +343,13 @@ function _loadingAnimationStart() {
       strokeDashoffset: svgPathLength,
     });
 
-    preloaderTexts.forEach(p => { // テキスト分割
-      new SplitText(p, {
-        type: "lines",
-        linesClass: "line",
-        mask: "lines",
-      });
-    });
+    // preloaderTexts.forEach(p => { // テキスト分割
+    //   new SplitText(p, {
+    //     type: "lines",
+    //     linesClass: "line",
+    //     mask: "lines",
+    //   });
+    // });
 
     // new SplitText(".hero h1", { // ヒーロー
     //   type: "words",

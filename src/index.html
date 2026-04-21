@@ -26,6 +26,8 @@
   <meta name="description" content="In this tutorial, we'll build a lightweight async page transition system from scratch using vanilla JavaScript, GSAP, and Vite."/>
   <link rel="icon" type="image/svg+xml" href="https://tympanus.net/favicon/favicon.svg" />
   <link rel="shortcut icon" href="https://tympanus.net/favicon/favicon.ico" />
+
+  <link rel="stylesheet" href="./sass/loader.scss">
 </head>
 
 <body>
@@ -44,32 +46,49 @@
       <div class="p-loader__percent" id="js-loader-percent"></div>
     </div>
   </div> -->
-
+  
   <!-- preloader -->
     <div class="l-loader p-loader" id="js-loader">
       <div class="p-loader__row">
-        <p>Initiating</p>
+        <p class="p-loader__text">
+          <span class="line">Initiating</span>
+        </p>
       </div>
       <div class="p-loader__row">
         <div class="p-loader__col">
           <div class="p-sub-col">
-            <p>Phase 01</p>
-            <p>Sequence</p>
+            <p class="p-loader__text">
+              <span class="line">Phase 01</span>
+            </p>
+            <p class="p-loader__text">
+              <span class="line">Sequence</span>
+            </p>
+            <p></p>
           </div>
           <div class="p-sub-col">
-            <p>Signal Scan</p>
-            <p>07 Layers</p>
+            <p class="p-loader__text">
+              <span class="line">Signal Scan</span>
+            </p>
+            <p class="p-loader__text">
+              <span class="line">07 Layers</span>
+            </p>
           </div>
         </div>
         <div class="p-loader__col">
-          <p>PX-17</p>
+          <p class="p-loader__text">
+            <span class="line">PX-17</span>
+          </p>
         </div>
       </div>
 
       <div class="p-loader__btn p-loader-btn" id="js-loader-btn">
         <img class="p-loader-btn__logo" id="js-loader-logo" src="/images/youtube.png" alt="">
-        <p class="p-loader-btn__start" id="js-loader-start">start</p>
-        <p class="p-loader-btn__end" id="js-loader-end">Access Granted</p>
+        <p class="p-loader-btn__start" id="js-loader-start">
+          <span class="line">start</span>
+        </p>
+        <p class="p-loader-btn__end" id="js-loader-end">
+          <span class="line">Access Granted</span>
+        </p>
 
         <!-- カウントアップ -->
         <div class="p-loader-btn__coutup c-countup" id="js-countup">
@@ -89,6 +108,7 @@
           > -->
           <!-- ⭐️TODO width heightなどの設定 -->
           <svg
+            class="p-svg-strokes__svg"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 320 320"
             fill="none" 

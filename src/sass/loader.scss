@@ -1,0 +1,261 @@
+/*******************************************************
+
+loader → htmlで読み込む
+
+********************************************************/
+@use "./global/" as *;
+
+
+// .loader-backdrop{
+//   width: 100%;
+//   height: 100svh;
+//   background-color: var(--base-100);
+//   color: var(--base-200);
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   z-index: 0;
+// }
+
+// .pb-row {
+//   padding: 1.5rem;
+//   width: 100%;
+//   display: flex;
+//   justify-content: space-between;
+// }
+
+// .pb-row:nth-child(2){
+//   align-items: flex-end;
+// }
+
+/* ⭐️ TODO htmlのどこにあるか、ないなら追加 */
+// .p-loader__row .p-loader-btn__logo {
+//   padding: 0.25rem;
+//   width: 2.5rem;
+//   height: 2.5rem;
+  
+//   border: 1px dashed var(--base-200);
+// }
+
+// h1{
+//   font-weight: 800;
+//   font-size: clamp(5rem, 15vw, 15rem);
+//   letter-spacing: -2%;
+//   line-height: 0.8;
+//   text-transform: uppercase;
+// }
+
+
+
+.l-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.p-loader {
+  width: 100%;
+  height: 100svh;
+  background-color: $black;
+  color: $white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  
+  will-change: transform, clip-path;
+}
+
+.p-loader p{
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.p-loader__row{
+  width: 100%;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.p-loader__row,
+.p-loader__col {
+  display: flex;
+  align-items: flex-end;
+  gap: 6rem;
+}
+
+.p-loader__text{
+  line-height: 1;
+  overflow: hidden;
+}
+
+.p-loader__text .line{
+  display: inline-block;
+  transform: translateY(100%);
+}
+
+.p-loader__btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// .p-loader-btn
+.p-loader-btn{
+  width: 20rem;
+  height: 20rem;
+
+  /* 
+    コンテナ自体はクリック無効 
+    → svgのcircleはクリックできるようにする
+  */
+  pointer-events: none; 
+}
+
+/* svg関連 */
+.p-loader-btn__svg-strokes,
+.p-loader-btn__logo,
+.p-loader-btn__start,
+.p-loader-btn__end {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.p-loader-btn__logo {
+  width: 4rem;
+  height: 4rem;
+}
+
+.p-loader-btn__start,
+.p-loader-btn__end {
+  display: inline-block;
+  font-size: 0.9rem;
+  overflow: hidden;
+}
+
+.p-loader-btn__start .line,
+.p-loader-btn__end .line {
+  display: inline-block;
+  position: relative;
+  transform: translateY(100%);
+  will-change: transform;
+}
+
+
+
+/*******************************************************
+
+.p-svg-strokes
+
+********************************************************/
+.p-svg-strokes{
+
+}
+
+/* 
+  コンテナ自体はクリック無効 
+  → svgのcircleはクリックできるようにする
+*/
+.p-loader-btn{
+  pointer-events: none; 
+}
+
+// svgタグ
+.p-svg-strokes__svg{
+  pointer-events: none; /* SVG全体も無効 */
+}
+
+.p-svg-strokes__track,
+.p-svg-strokes {
+  pointer-events: all; /* 線の部分だけクリック可能 */
+}
+
+.p-loader-btn__svg-strokes,
+.p-loader-btn__svg-strokes svg {
+  width: 100%;
+  height: 100%;
+}
+
+
+/*******************************************************
+
+c-svg-track
+
+********************************************************/
+// @use './global/' as *;
+
+
+
+/*******************************************************
+
+c-svg-progress
+
+********************************************************/
+// @use './global/' as *;
+
+
+
+/*******************************************************
+
+c-countup
+
+********************************************************/
+// @use './global/' as *;
+.c-countup {
+  overflow: hidden;
+}
+
+
+
+/* ⭐️ 7:08から */
+/* https://www.youtube.com/watch?v=z_0H7wLyX3A */
+
+// .hero {
+//   padding: 1.5rem;
+//   width: 100%;
+//   height: 100svh;
+//   color: var(--base-100);
+//   background-color: var(--base-300);
+//   text-align: center;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   position: relative;
+//   z-index: 1;
+//   transform: scale(0.75);
+//   will-change: transform;
+// }
+
+// .hero .loader-revealer {
+//   width: 100%;
+//   height: 100%;
+//   background-color: var(--base-100);
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+//   will-change: clip-path;
+// }
+
+// .hero h1{
+//   width: 90%;
+// }
+
+@media only screen and (max-width: 768px) {
+  .p-loader__row .p-loader__col:nth-child(1),
+  .p-loader__row .p-loader__col:nth-child(2),
+  .p-loader__row .p-loader__col:nth-child(3) {
+    display: none;
+  }
+}
+
