@@ -9,8 +9,12 @@
 
 
 ✅ テキスト関係の配置がおかしい。
-✅ 初期表示がおかしい
-✅ pタグなどをgsapで制御せずにCSSのみで、overflow: hidden;、y: 100%にしておく。
+⭕️ 初期表示がおかしい
+⭕️ pタグなどをgsapで制御せずにCSSのみで、overflow: hidden;、y: 100%にしておく。
+✅ CSSの最終確認
+✅ カーソルが出るタイミング
+✅ bootstrapの順番確認
+→ introが終わったからマウスを出す
 
 ✅ SVGのアニメーションとテクスチャのロードを同期させるかどうか
 
@@ -55,7 +59,7 @@ const $ = {}; // DOM要素
 
 async function init() {
   $.globalContainer = INode.getElement("#js-global-container");
-  $.countup = INode.getElement("#js-countup");
+  $.countup = INode.getElement("#js-countup"); // カウントアップ
 }
 
 // ✅ 全てのURLを取得して、url => テクスチャ の状態でtextureCacheに格納
@@ -493,11 +497,13 @@ async function _loadingAnimationEnd(_tl){
   // console.log("running");
 
   // これらのopacityを徐々に上げていく
-  const containerWrapper = INode.qsAll("#js-container-wrapper");
+  // const containerWrapper = INode.qsAll("#js-container-wrapper");
+  const globalContainer = INode.qs("#js-global-container");
   // console.log(containerWrapper);
   return new Promise(resolve => {
-    _tl.to(containerWrapper, {
+    _tl.to(globalContainer, {
       opacity: 1,
+      visibility: "visible",
       duration: 1,
       onComplete: () => {
         loader.isLoaded = true;
@@ -508,7 +514,6 @@ async function _loadingAnimationEnd(_tl){
 
   // ✅ preloaderが終わった後の処理
 
-  
 }
 
 let loadingAnimation = null;

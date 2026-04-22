@@ -1,6 +1,7 @@
 /*******************************************************
 
-loader → htmlで読み込む
+loader → htmlで読み込む。
+ローディング関連は他の部分よりも早く読み込む
 
 ********************************************************/
 @use "./global/" as *;
@@ -49,12 +50,11 @@ loader → htmlで読み込む
 // }
 
 
-
 .l-loader {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 8888;
 }
 
 .p-loader {
@@ -204,7 +204,6 @@ c-svg-progress
 // @use './global/' as *;
 
 
-
 /*******************************************************
 
 c-countup
@@ -214,6 +213,19 @@ c-countup
 .c-countup {
   overflow: hidden;
 }
+
+/*******************************************************
+
+.p-global-container
+
+********************************************************/
+// @use './global/' as *;
+
+.p-global-container {
+  opacity: 0;
+  visibility: hidden;
+}
+
 
 
 
@@ -250,12 +262,3 @@ c-countup
 // .hero h1{
 //   width: 90%;
 // }
-
-@media only screen and (max-width: 768px) {
-  .p-loader__row .p-loader__col:nth-child(1),
-  .p-loader__row .p-loader__col:nth-child(2),
-  .p-loader__row .p-loader__col:nth-child(3) {
-    display: none;
-  }
-}
-

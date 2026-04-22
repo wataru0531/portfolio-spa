@@ -15,6 +15,7 @@
 // SVGで幾何学のオブジェクトを。circle、rectなど
 // マウスの出現タイミングを制御
 
+// ページ遷移後にスクロール位置をトップに戻す
 // 慣性スクロール
 // スクロールアニメーション
 // フォルダ構成の最適化
@@ -86,7 +87,7 @@ export async function init() {
     countupInner.innerHTML = `${Math.round((progress / total) * 100)}%`; // round 四捨五入
     
     // 👉 TODO SVGの進行も追加 
-    // → テクスチャの読み込みに同意させる場合。速すぎて厳しい。
+    // → テクスチャの読み込みに同意させる。 → 速すぎて厳しい。
 
     
   });
@@ -96,7 +97,6 @@ export async function init() {
                                 // 👉 カウントアップのアニメーションもここで行う
 
   const bgColor = "none";
-
   await world.init(canvas, viewport, bgColor); // Three.js関連の初期化
 
   addGui(world); // guiの初期化
@@ -114,9 +114,9 @@ export async function init() {
   //   });
   // });
 
-  // ✅ カーソル
-  // TODO ホバー時にsvgサークルの色を要素ごとを変えれたら面白い
-  mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
+  // // ✅ カーソル
+  // // TODO ホバー時にsvgサークルの色を要素ごとを変えれたら面白い
+  // mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
 
   // ✅ リサイズ処理をまとめる
   viewport.addResizeAction(() => {
@@ -140,6 +140,10 @@ export async function init() {
 
   // ✅ 全てを読み込んでローディングのアニメーション発火(カウンターの削除、コンテンツを表示)
   await loader.letsBegin(); 
+
+  // ✅ カーソル
+  // TODO ホバー時にsvgサークルの色を要素ごとを変えれたら面白い
+  mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
 
   // mouse.makeVisible(); // 初期表示時にカスタムカーソルを非表示。300ms毎に判定
 }
