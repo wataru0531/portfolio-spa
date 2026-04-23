@@ -7,7 +7,6 @@
 → "tex1" => Texture　この形で取得
 
 
-
 ✅ テキスト関係の配置がおかしい。
 ⭕️ 初期表示がおかしい
 ⭕️ pタグなどをgsapで制御せずにCSSのみで、overflow: hidden;、y: 100%にしておく。
@@ -32,6 +31,7 @@ CustomEase.create("glide", "0.8, 0, 0.2, 1");
 
 import { LinearFilter, TextureLoader, VideoTexture } from "three";
 import { INode } from "../helper";
+import mouse from "./mouse";
 
 const texLoader = new TextureLoader();
 
@@ -308,7 +308,9 @@ function addProgressAction(_callback) {
 function _loadingAnimationStart() {
   const tl = gsap.timeline();
 
+  // ////////////////////////////////////////////////////////////////////
   // ① ⭐️ カウントアップに関するアニメーション
+  ///////////////////////////////////////////////////////////////////////
   tl.to($.countup.firstElementChild, {
     // $.countup.firstElementChild ... .c-countup__inner
     // opacity: 0,
@@ -344,7 +346,7 @@ function _loadingAnimationStart() {
     // JSでも制御する。見た目を担保、ブラウザによって異なるかもしれないから
     gsap.set([svgTrack, svgProgress], {
       strokeDasharray: svgPathLength,
-      strokeDashoffset: svgPathLength,
+      strokeDashoffset: svgPathLength, // 左に押し込む
     });
 
     // preloaderTexts.forEach(p => { // テキスト分割
@@ -361,6 +363,8 @@ function _loadingAnimationStart() {
     //   mask: "words"
     // });
 
+    // ✅ introTl
+    
     const introTl = gsap.timeline({ delay: 1 });
     introTl
     .to(".p-loader .p-loader__row p .line", { // CSS側でY軸下100%に
@@ -421,10 +425,16 @@ function _loadingAnimationStart() {
         preloaderComplete = true;
       }
     }, "-=0.75")
-
+    .call(() => {
+      ////////////////////////////////////////////////////////////////
+      // ⭐️ カーソルの初期化
+      ////////////////////////////////////////////////////////////////
+      document.body.style.cursor = "auto";
+      mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
+    })
 
     // ✅ 中央のコンテナクリック
-    svgProgress.addEventListener("click", () => { 
+    svgProgress.addEventListener("pointerdown", () => { 
       if(!preloaderComplete) return;
 
       preloaderComplete = false;
@@ -488,7 +498,6 @@ function _loadingAnimationStart() {
       
     })
 
-
   return tl;
 }
 
@@ -497,9 +506,8 @@ async function _loadingAnimationEnd(_tl){
   // console.log("running");
 
   // これらのopacityを徐々に上げていく
-  // const containerWrapper = INode.qsAll("#js-container-wrapper");
   const globalContainer = INode.qs("#js-global-container");
-  // console.log(containerWrapper);
+  // console.log(globalContainer);
   return new Promise(resolve => {
     _tl.to(globalContainer, {
       opacity: 1,

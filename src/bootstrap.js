@@ -114,10 +114,6 @@ export async function init() {
   //   });
   // });
 
-  // // ✅ カーソル
-  // // TODO ホバー時にsvgサークルの色を要素ごとを変えれたら面白い
-  // mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
-
   // ✅ リサイズ処理をまとめる
   viewport.addResizeAction(() => {
     // canvasのサイズの更新、メッシュの位置やサイズの更新、カメラのprojectionMatrixの更新
@@ -141,9 +137,9 @@ export async function init() {
   // ✅ 全てを読み込んでローディングのアニメーション発火(カウンターの削除、コンテンツを表示)
   await loader.letsBegin(); 
 
-  // ✅ カーソル
+  // ✅ カーソル → loader.jsで初期化
   // TODO ホバー時にsvgサークルの色を要素ごとを変えれたら面白い
-  mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
+  // mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
 
   // mouse.makeVisible(); // 初期表示時にカスタムカーソルを非表示。300ms毎に判定
 }

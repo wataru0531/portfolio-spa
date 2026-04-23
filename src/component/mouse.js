@@ -83,9 +83,16 @@ function init(hideDefaultCursor = false, applyStyle = true) {
 }
 
 
+let hasEntered = false;
+
 // 
 function _bindEvents() {
   window.addEventListener("pointermove", (event) => {
+    if(!hasEntered) {
+      $.svg.classList.add("is-visible");
+      hasEntered = true;
+    }
+
     // stuck(張り付き)の要素の場合は、位置情報を更新しない。stuckの関数を優先する
     if(mouse.shouldTrackMousePos) { // デフォルトではtrue
       _updatePosition(event); // マウス座標を更新
