@@ -83,9 +83,9 @@ function init(hideDefaultCursor = false, applyStyle = true) {
 }
 
 
-let hasEntered = false;
+let hasEntered = false; // カーソルがビューポートに入っているかどうかのフラグ
 
-// 
+// 紐づけたいイベント
 function _bindEvents() {
   window.addEventListener("pointermove", (event) => {
     if(!hasEntered) {

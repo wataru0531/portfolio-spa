@@ -7,18 +7,7 @@
 → "tex1" => Texture　この形で取得
 
 
-✅ テキスト関係の配置がおかしい。
-⭕️ 初期表示がおかしい
-⭕️ pタグなどをgsapで制御せずにCSSのみで、overflow: hidden;、y: 100%にしておく。
-✅ CSSの最終確認
-✅ カーソルが出るタイミング
-✅ bootstrapの順番確認
-→ introが終わったからマウスを出す
-
-✅ SVGのアニメーションとテクスチャのロードを同期させるかどうか
-
 ✅　カウントアップと、SVGアニメーションを分けるかどうか
-
 
 ***************************************************************/
 import gsap from "gsap";
@@ -364,7 +353,6 @@ function _loadingAnimationStart() {
     // });
 
     // ✅ introTl
-    
     const introTl = gsap.timeline({ delay: 1 });
     introTl
     .to(".p-loader .p-loader__row p .line", { // CSS側でY軸下100%に
@@ -430,7 +418,10 @@ function _loadingAnimationStart() {
       // ⭐️ カーソルの初期化
       ////////////////////////////////////////////////////////////////
       document.body.style.cursor = "auto";
+      // mouse.$.svg.classList.add("is-visible");
+      
       mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
+      // if(mouse.$.svg) mouse.$.svg.classList.add("is-visible")
     })
 
     // ✅ 中央のコンテナクリック

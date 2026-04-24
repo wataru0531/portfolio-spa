@@ -2,7 +2,11 @@
 // main.js
 
 // ✅ TODO
+
+// ローディング後のintroで黒背景がモチがある部分　→ svgに変更
+// menuの実装
 // WebGLの実装の確認
+
 
 // 他のページ追加
 // → Worksを追加。/works/works1
@@ -10,10 +14,9 @@
 // ページ遷移後にWebGLの位置がおかしくなる問題
 
 // ⭐️デザインを決める
-// menu
 // ローディング
 // SVGで幾何学のオブジェクトを。circle、rectなど
-// マウスの出現タイミングを制御
+// ◯ マウスの出現タイミングを制御
 
 // ページ遷移後にスクロール位置をトップに戻す
 // 慣性スクロール
@@ -23,6 +26,7 @@
 
 // microCMS
 
+import gsap from "gsap";
 
 import world from "./glsl/world";
 import { viewport, gui, INode, utils } from "./helper";
@@ -77,20 +81,34 @@ export async function init() {
   // ここではtierが2, 50fpsでない場合は各index.jsでメッシュの作成をスキップ
   await utils.definePerformanceMode(1, 20);
   
+
+
   // ✅ 数値のカウントアップの事前準備 + preloaderのアニメーション。
   // const countup = INode.getElement("#js-countup");
   const countupInner = INode.getElement("#js-countup-inner");
+  const svgProgress = INode.getElement("#js-svg-progress");
+  const svgTrack = INode.getElement("#js-svg-track");
+  const svgPathLength = svgTrack.getTotalLength();
+  
   // console.log(loaderPercent)
   loader.addProgressAction((progress, total) => {
     // console.log(progress, total)
+    const ratio = progress / total;
+
     // 👉 カウンター
-    countupInner.innerHTML = `${Math.round((progress / total) * 100)}%`; // round 四捨五入
+    countupInner.innerHTML = `${Math.round(ratio * 100)}%`; // round 四捨五入
     
     // 👉 TODO SVGの進行も追加 
     // → テクスチャの読み込みに同意させる。 → 速すぎて厳しい。
-
+    // gsap.to(svgProgress,{
+    //   strokeDashoffset: svgPathLength - svgPathLength * ratio,
+    //   duration:0.35,
+    //   ease:"glide"
+    // });
     
   });
+
+
 
   await loader.loadAllAssets(); // windowにテクスチャをキャッシュとして保持する。
                                 // 読み込むまで待機させる
@@ -138,8 +156,6 @@ export async function init() {
   await loader.letsBegin(); 
 
   // ✅ カーソル → loader.jsで初期化
-  // TODO ホバー時にsvgサークルの色を要素ごとを変えれたら面白い
-  // mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
 
   // mouse.makeVisible(); // 初期表示時にカスタムカーソルを非表示。300ms毎に判定
 }
