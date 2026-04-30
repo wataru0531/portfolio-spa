@@ -84,6 +84,7 @@
 
       <div class="p-loader__btn p-loader-btn" id="js-loader-btn">
         <img class="p-loader-btn__logo" id="js-loader-logo" src="/images/youtube.png" alt="">
+        
         <p class="p-loader-btn__start" id="js-loader-start">
           <span class="line">start</span>
         </p>
@@ -96,7 +97,7 @@
           <div class="c-countup__inner" id="js-countup-inner"></div>
         </div>
 
-        <!-- SVGアニメーション -->
+        <!-- SVG circleアニメーション -->
         <div class="p-loader-btn__svg-strokes p-svg-strokes">
           <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -161,6 +162,41 @@
       </div>
     </div>
     <!-- preloader -->
+
+    <!-- SVG Bulge  -->
+    <div class="l-bulge p-bulge">
+      <svg
+        class="menu-bg-svg"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1131 861"
+        preserveAspectRatio="none"
+      >
+        <!-- 
+          d ... path data
+          M ... Move To。
+                ペンを(1131, 0)に移動。右上スタート
+          Q ... Quadratic Bezier curve。2次ベジェ曲線
+                Q 制御点x,y 終点x,y
+          L ... Line to。
+                L 0.0 ... 直線で(0, 0)へ。
+                L 1131 0 ... 直線で(1131, 0)へ。
+          Z ... close Path。開始点へ戻ってパスを閉じる
+          ⭐️開始点から終点へ、終点から開始点に戻ることで、囲って図を作っている。
+            囲うことでfillで色を塗りつぶすことができる。
+          ⭐️ 開始点：(1131,0)
+            制御点：(565.5,0)
+            終点：(0,0)
+            この3点で1本のベジェ曲線を定義している
+            1131,0 から 0,0 までの1本の曲線を、565.5,0 が曲げているイメージ
+        -->
+        <path
+          id="menu-path"
+          fill="#f0eeee"
+          d="M 1131,0 Q 565.5,0 0,0 L 0,0 L 1131,0 Z"
+        />
+      </svg>
+    </div>
+    <!-- SVG Bulge  -->
 
 
   <div class="l-global-container p-global-container" id="js-global-container">

@@ -422,7 +422,7 @@ function _loadingAnimationStart() {
       
       mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
       // if(mouse.$.svg) mouse.$.svg.classList.add("is-visible")
-    })
+    });
 
     // ✅ 中央のコンテナクリック
     svgProgress.addEventListener("pointerdown", () => { 
@@ -483,10 +483,16 @@ function _loadingAnimationStart() {
       //     each: 0.05,
       //   }
       // }, "-=1.75")
-      .to("#js-loader", {
+      .to("#js-loader", { // .p-loaderのこと
         display: "none",
       })
-      
+
+      // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+      // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+      // → svg Bulgeの処理
+      //   初期化のためのCSSを当てる
+      //   使うDOMを取得しておく
+
     })
 
   return tl;
