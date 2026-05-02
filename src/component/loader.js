@@ -335,10 +335,7 @@ async function _loadingAnimationEnd(_tl){
         resolve();
       }
     })
-  })
-
-  // ✅ preloaderが終わった後の処理
-
+  });
 }
 
 
@@ -352,19 +349,18 @@ function addLoadingAnimation(_loadingAnimation){
 }
 
 async function letsBegin() { // ローディングアニメーションを発火させるための関数
-  const tl = _loadingAnimationStart(); // ローディング開始
+  const tl = _loadingAnimationStart(); // ローディングに関する処理
 
-  // console.log(loadingAnimations)
-  // ローディングのアニメーションに続けて実行したい処理を実行
+  // ローディングの後にに続けて実行したい処理を実行
   // → ① circleのsvgアニメーション ... 後から追加
   //   ② Bulge
   // loadingAnimation && loadingAnimation(tl);
 
-  for(const callback of loadingAnimations) {
-    await callback(tl);
+  for(const animation of loadingAnimations) {
+    await animation(tl);
   }
 
-  // ローシングアニメーションが終わった時に実装
+  // ローシングアニメーション終了時
   return await _loadingAnimationEnd(tl);
 }
 

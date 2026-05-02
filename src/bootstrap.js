@@ -229,11 +229,28 @@ export async function init() {
         resolve(_tl);
       });
 
+
+      // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+      // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+      // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
+      // リファクタリング
+      
       // ✅ 中央のコンテナクリック → ここはtimelineから切り離す
       svgProgress.addEventListener("pointerdown", () => { 
         if(!preloaderComplete) return;
 
         preloaderComplete = false;
+
+        const bulge = document.getElementById("js-bulge");
+        const menuBgSvg = document.querySelector(".menu-bg-svg"); // svg
+        const menuPath = document.getElementById("menu-path"); // path
+        const svgWidth = menuBgSvg.viewBox.baseVal.width; // 内部座標の幅
+        const svgHeight = menuBgSvg.viewBox.baseVal.height;
+        const svgCenterX = svgWidth / 2;
+
+        // 初期位置 全体を覆う
+        const OPEN_START = 
+        `M${svgWidth},${svgHeight} Q${svgCenterX},${svgHeight} 0,${svgHeight} L0,0 L${svgWidth},0 Z`
 
         const exitTl = gsap.timeline();
         exitTl
@@ -267,58 +284,26 @@ export async function init() {
           duration: 1.5,
           ease: "hop"
         })
-        // .to(".preloader-revealer", { // heroの中のrevealer
-        //   clipPath: "polygon(0% 0%, 100% 0% , 100% 0%, 0% 0%)",
-        //   duration: 1.5,
-        //   ease: "hop",
-        //   onComplete: () => {
-        //     gsap.set(".preloader", { display: "none" })
-        //   }
-        // }, "-=1.45")
-        // .to(".hero", {
-        //   scale: 1,
-        //   duration: 1.25,
-        //   ease: "hop",
-        // })
-        // .to(".hero h1 .word", {
-        //   y: "0%",
-        //   duration: 1,
-        //   ease: "glide",
-        //   stagger: {
-        //     each: 0.05,
-        //   }
-        // }, "-=1.75")
-        .to("#js-loader", { // .p-loader自体を非表示
+        .to(menuPath, { // ⭐️ SVGのBulge
+          attr: { 
+            d: `M${svgWidth},345 Q${svgCenterX},620 0,345 L0,0 L${svgWidth},0 Z`
+          }, // 左サイドから下に沈める
+          ease: "power3.in",
+          duration: 0.5,
+          // delay: .1
+        })
+        .to(menuPath, {
+          attr: { 
+            d: `M${svgWidth},0 Q${svgCenterX},0 0,0 L0,0 L${svgWidth},0 Z`
+          }, // ビューポート下に一直線
+          ease: "power3.out",
+          duration: 0.5,
+        })
+        .to(["#js-loader", "#js-bulge"], { // .p-loader自体を非表示
           display: "none",
         })
-      }, { once: true }); // 初回だけ
-
-    })
-
-    
-  })
-
-  // ⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから
-  // ⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから
-  // ⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから
-  // ② Bulge → 独立させてクラス化するか
-  // → svg Bulgeの処理
-  //   初期化のためのCSSを当てる
-  //   使うDOMを取得しておく
-  loader.addLoadingAnimation((_tl) => {
-    console.log("Bulge"); 
-
-    return new Promise((resolve) => {
-      const introTl = gsap.timeline({ 
-        delay: 1,
-        onComplete: () => resolve(_tl),
       });
-
-      
     })
-    
-
-    // return tl;
   })
 
 
