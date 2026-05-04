@@ -74,8 +74,7 @@ export async function init() {
 
   // scroller.init(true); // 慣性スクロール。trueで入れない
 
-  // ✅ ローディングで使うDOMを取得
-  loader.init();
+  loader.init();  // ✅ ローディングで使うDOMを取得
 
   // ✅ GPUパフォーマンス測定
   // ここではtierが2, 50fpsでない場合は各index.jsでメッシュの作成をスキップ
@@ -113,7 +112,6 @@ export async function init() {
   loader.addLoadingAnimation((_tl) => {
 
     return new Promise((resolve) => {
-
       // ////////////////////////////////////////////////////////////////////
       // ② ⭐️ SVGアニメーション
       ///////////////////////////////////////////////////////////////////////
@@ -131,7 +129,7 @@ export async function init() {
       const svgPathLength = svgTrack.getTotalLength();
       // console.log(svgPathLength); // 円周の長さ。973.5000610351562
 
-      // JSでも制御する。見た目を担保、ブラウザによって異なるかもしれないから
+      // HTMLで設定しているがJSでも制御。見た目を担保、ブラウザによって異なるかもしれないから
       gsap.set([svgTrack, svgProgress], {
         strokeDasharray: svgPathLength,
         strokeDashoffset: svgPathLength, // 左に押し込む
@@ -171,7 +169,7 @@ export async function init() {
         duration: 2,
         ease: "hop",
       }, "<") // 直前のトゥイーンの開始時
-      .to(".p-svg-strokes svg", { // ⭐️svg自体を回転させる
+      .to(".p-svg-strokes svg", { // ⭐️ svg自体を回転させる
         rotation: 270,
         duration: 2,
         ease: "hop",
@@ -234,8 +232,9 @@ export async function init() {
       // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
       // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
       // リファクタリング
+      // → 別ファイルに分離中 ... 後にここは削除
       
-      // ✅ 中央のコンテナクリック → ここはtimelineから切り離す
+      // ✅ 中央のコンテナクリック → これは、timelineから切り離された処理
       svgProgress.addEventListener("pointerdown", () => { 
         if(!preloaderComplete) return;
 
