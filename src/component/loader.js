@@ -357,6 +357,7 @@ async function letsBegin() { // ローディングアニメーションを発火
   // loadingAnimation && loadingAnimation(tl);
 
   for(const animation of loadingAnimations) {
+    // console.log(animation);
     await animation(tl);
   }
 

@@ -1,19 +1,9 @@
 
+/**************************************************************
+
 // preloader.js
 
 // svg関連のアニメーション
-
-
-/**************************************************************
-
-✅ loadAllAssets ... 画像のキャッシュを生成 
-→ /img/slider/slider_1.jpg' => Texture
-
-✅ getTexByElement ... キャッシュから画像を取得
-→ "tex1" => Texture　この形で取得
-
-
-✅　カウントアップと、SVGアニメーションを分けるかどうか
 
 ***************************************************************/
 import gsap from "gsap";
@@ -33,37 +23,41 @@ const $ = {}; // DOM要素
 const preloader = {
   $,
   init,
-
+  createAnimation,
 };
 
-
-
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-// ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
 
 // 初期化処理
 async function init() {
   // DOM取得
-  $.preloaderBtn = INode.getElement("#js-loader-btn");
+  $.loader = INode.getElement("#js-loader");
+  $.loaderBtn = INode.getElement("#js-loader-btn");
+  $.svgStrokes = INode.getElement("#js-svg-strokes");
+  // console.log($.svgStrokes)
   $.svgTrack = INode.getElement("#js-svg-track"); // 1つめのグレーcircle
   $.svgProgress = INode.getElement("#js-svg-progress"); // 2つ目の白circle
 
-  $.bulge = document.getElementById("js-bulge"); // → ✅ TODO Bulgeもあとで分離させるか？
+
+  // ⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから
+  // ⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから
+  // ⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから⭐️ ここから⭐️ここから
+  // バージをコンポーネント化する このファイルやmenu.jsのような感じ
+
+  $.bulge = INode.getElement("#js-bulge"); // → ✅ TODO Bulgeもあとで分離させるか？
   $.menuBgSvg = document.querySelector(".menu-bg-svg"); // svg
   $.menuPath = document.getElementById("menu-path"); // path
-  $.svgWidth = menuBgSvg.viewBox.baseVal.width; // 内部座標の幅
-  $.svgHeight = menuBgSvg.viewBox.baseVal.height;
-  $.svgCenterX = svgWidth / 2;
+  $.svgWidth = $.menuBgSvg.viewBox.baseVal.width; // 内部座標の幅
+  $.svgHeight = $.menuBgSvg.viewBox.baseVal.height;
+  $.svgCenterX = $.svgWidth / 2;
 
 
-  const svgPathLength = svgTrack.getTotalLength();
-  // console.log(svgPathLength); // 円周の長さ。973.5000610351562
+  $.svgPathLength = $.svgTrack.getTotalLength();
+  // console.log($.svgPathLength); // 円周の長さ。973.5000610351562
 
   // HTMLで設定しているがJSでも制御。見た目を担保、ブラウザによって異なるかもしれないから
-  gsap.set([svgTrack, svgProgress], {
-    strokeDasharray: svgPathLength,
-    strokeDashoffset: svgPathLength, // 左に押し込む
+  gsap.set([$.svgTrack, $.svgProgress], {
+    strokeDasharray: $.svgPathLength,
+    strokeDashoffset: $.svgPathLength, // 左に押し込む
   });
 
   // preloaderTexts.forEach(p => { // テキスト分割
@@ -87,21 +81,23 @@ async function init() {
   // });
   // introTl
 
-  // bindイベント
   _bindEvents();
 }
 
+let preloaderComplete = false;
 
+// ✅ イベント処理
 function _bindEvents(){
+
   // ボタンクリックの処理 Bulge → 別ファイル切り出し
   // ✅ 中央のコンテナクリック → これは、timelineから切り離された処理
-    svgProgress.addEventListener("pointerdown", () => { 
+    $.svgProgress.addEventListener("pointerdown", () => { 
       if(!preloaderComplete) return;
 
       preloaderComplete = false;
 
       // 初期位置 全体を覆う
-      const OPEN_START = `M${svgWidth},${svgHeight} Q${svgCenterX},${svgHeight} 0,${svgHeight} L0,0 L${svgWidth},0 Z`
+      const OPEN_START = `M${$.svgWidth},${$.svgHeight} Q${$.svgCenterX},${$.svgHeight} 0,${$.svgHeight} L0,0 L${$.svgWidth},0 Z`
 
       const exitTl = gsap.timeline();
       exitTl
@@ -110,12 +106,12 @@ function _bindEvents(){
       //   duration: 1.25,
       //   ease: "hop",
       // })
-      .to([svgTrack, svgProgress], {
-        strokeDashoffset: -svgPathLength,
+      .to([$.svgTrack, $.svgProgress], {
+        strokeDashoffset: -$.svgPathLength,
         duration: 1.25,
         ease: "hop",
       }, "<")
-      .to(".p-svg-strokes svg", { // ⭐️svg自体をさらに270度プラスで回転
+      .to($.svgStrokes, { // ⭐️svg自体をさらに270度プラスで回転
         rotation: 540,
         duration: 2,
         ease: "hop",
@@ -130,36 +126,40 @@ function _bindEvents(){
         duration: 0.75,
         ease: "power3.out",
       }, "-=0.75") // // 直前のトゥイーンの終了に何秒だけ重ねるか
-      .to("#js-loader", {
+      .to($.loader, {
         clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)", // 上に上げる
         duration: 1.5,
         ease: "hop"
       })
-      .to(menuPath, { // ⭐️ SVGのBulge
+      .to($.menuPath, { // ⭐️ SVGのBulge
         attr: { 
-          d: `M${svgWidth},345 Q${svgCenterX},620 0,345 L0,0 L${svgWidth},0 Z`
+          d: `M${$.svgWidth},345 Q${$.svgCenterX},620 0,345 L0,0 L${$.svgWidth},0 Z`
         }, // 左サイドから下に沈める
         ease: "power3.in",
         duration: 0.5,
         // delay: .1
       })
-      .to(menuPath, {
+      .to($.menuPath, {
         attr: { 
-          d: `M${svgWidth},0 Q${svgCenterX},0 0,0 L0,0 L${svgWidth},0 Z`
+          d: `M${$.svgWidth},0 Q${$.svgCenterX},0 0,0 L0,0 L${$.svgWidth},0 Z`
         }, // ビューポート下に一直線
         ease: "power3.out",
         duration: 0.5,
       })
-      .to(["#js-loader", "#js-bulge"], { // .p-loader自体を非表示
+      .to([$.loader, $.bulge], { // .p-loader自体を非表示
         display: "none",
       })
     });
 }
 
 // ✅ svgのcircleアニメーション、テキストを戻す、カーソル初期化
+// → bootstrapで、loader.addLoadingAnimationにコールバックで渡す
+//   どれを、loader.jsの、letsBeginで発火させる。なので_tlが渡される仕組み
 function createAnimation(){
   return (_tl) => { // → loader.jsで発火させるのでこの形でいい
     return new Promise((resolve) => {
+      // console.log($.svgStrokes);
+
       _tl
       .to(".p-loader .p-loader__row p .line", { // テキストの位置を元にもどす
         y: "0%",
@@ -169,12 +169,12 @@ function createAnimation(){
           each: .1
         }
       })
-      .to(svgTrack, { // グレーcircle
+      .to($.svgTrack, { // グレーcircle
         strokeDashoffset: 0,
         duration: 2,
         ease: "hop",
       }, "<") // 直前のトゥイーンの開始時
-      .to(".p-svg-strokes svg", { // ⭐️ svg自体を回転させる
+      .to($.svgStrokes, { // ⭐️ svg自体を回転させる
         rotation: 270,
         duration: 2,
         ease: "hop",
@@ -191,9 +191,9 @@ function createAnimation(){
       // ⭐️ 段階的に白ラインを動かす 
       // → ⭐️ ここをテクスチャの読み込みと同期できないか？
       progressStops.forEach((stop, idx) => {
-        _tl.to(svgProgress, { // 白circle
+        _tl.to($.svgProgress, { // 白circle
           // strokeDashoffset → 右側にどれだけ押し込んでいるか
-          strokeDashoffset: svgPathLength - (svgPathLength * stop),
+          strokeDashoffset: $.svgPathLength - ($.svgPathLength * stop),
           duration: 0.75,
           ease: "glide",
           delay: idx === 0 ? 0.3 : 0.3 + (Math.random() * 0.2), // 0.3 + 0から0.02の範囲で差を付ける
@@ -206,7 +206,7 @@ function createAnimation(){
         duration: .35,
         ease: "power1.out",
       }, "-=0.25") // 直前のトゥイーンの終了に何秒だけ重ねるか
-      .to(preloaderBtn, { // 中央の円のコンテナ
+      .to($.loaderBtn, { // 中央の円のコンテナ
         scale: .9,
         duration: 1.5,
         ease: "hop",

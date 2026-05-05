@@ -25,5 +25,8 @@
     "smooth-scrollbar": "^8.8.4",
     "stats-js": "^1.0.1",
     "three": "^0.183.2"
+  },
+  "volta": {
+    "node": "24.15.0"
   }
 }

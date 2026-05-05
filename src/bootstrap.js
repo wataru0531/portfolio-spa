@@ -37,6 +37,7 @@ import { menu } from "./component/menu";
 import { registerScrollAnimations } from "./component/scroll-animation.js";
 
 import { router } from "./router.js";
+import preloader from "./component/preloader.js";
 
 
 // ✅ デバック 1ならデバッグモード
@@ -74,7 +75,9 @@ export async function init() {
 
   // scroller.init(true); // 慣性スクロール。trueで入れない
 
-  loader.init();  // ✅ ローディングで使うDOMを取得
+  loader.init();  // ✅ ローディングで使うDOMなどの初期化
+
+  preloader.init(); // ✅ svgのcircleの初期化
 
   // ✅ GPUパフォーマンス測定
   // ここではtierが2, 50fpsでない場合は各index.jsでメッシュの作成をスキップ
@@ -107,204 +110,9 @@ export async function init() {
     
   });
 
-  // ローディングアニメーションに追加したい処理
-  // ① circleのアニメーション
-  loader.addLoadingAnimation((_tl) => {
-
-    return new Promise((resolve) => {
-      // ////////////////////////////////////////////////////////////////////
-      // ② ⭐️ SVGアニメーション
-      ///////////////////////////////////////////////////////////////////////
-      let preloaderComplete = false;
-
-      // const preloaderTexts = [...document.querySelectorAll(".p-loader p")];
-      // console.log(preloaderTexts); 
-      // (7) [p, p, p, p, p, p#js-loader-start, p#js-loader-end]
-      
-      const preloaderBtn = INode.getElement("#js-loader-btn");
-      const svgTrack = INode.getElement("#js-svg-track"); // 1つめのグレーcircle
-      const svgProgress = INode.getElement("#js-svg-progress"); // 2つ目の白circle
-      // console.log(svgProgress);
-
-      const svgPathLength = svgTrack.getTotalLength();
-      // console.log(svgPathLength); // 円周の長さ。973.5000610351562
-
-      // HTMLで設定しているがJSでも制御。見た目を担保、ブラウザによって異なるかもしれないから
-      gsap.set([svgTrack, svgProgress], {
-        strokeDasharray: svgPathLength,
-        strokeDashoffset: svgPathLength, // 左に押し込む
-      });
-
-      // preloaderTexts.forEach(p => { // テキスト分割
-      //   new SplitText(p, {
-      //     type: "lines",
-      //     linesClass: "line",
-      //     mask: "lines",
-      //   });
-      // });
-
-      // new SplitText(".hero h1", { // ヒーロー
-      //   type: "words",
-      //   wordsClass: "word",
-      //   mask: "words"
-      // });
-
-      // ✅ introTl
-      // const introTl = gsap.timeline({ 
-      //   delay: 1,
-      //   onComplete: () => resolve(_tl),
-      // });
-      // introTl
-      _tl
-      .to(".p-loader .p-loader__row p .line", { // CSS側でY軸下100%に
-        y: "0%",
-        ease: "power3.out",
-        duration: .75,
-        stagger: {
-          each: .1
-        }
-      })
-      .to(svgTrack, { // グレーcircle
-        strokeDashoffset: 0,
-        duration: 2,
-        ease: "hop",
-      }, "<") // 直前のトゥイーンの開始時
-      .to(".p-svg-strokes svg", { // ⭐️ svg自体を回転させる
-        rotation: 270,
-        duration: 2,
-        ease: "hop",
-      }, "<");
-
-      // ✅ 白circleをどこで止めるかの値を算出
-      const progressStops = [0.2, 0.25, 0.85, 1].map((base, idx) => {
-        if(idx === 3) return 1;
-        return base + (Math.random() - .5) * 0.1; // 元の値 + (- 0.5 〜　0.5) * 0.1
-                                                  // → 元の値　+ (- 0.05 〜 0.05)
-      });
-      // console.log(progressStops); // 4) [0.2462, 0.2155, 0.857, 1]
-
-      // ⭐️ 段階的に白ラインを動かす 
-      // → ⭐️ ここをテクスチャの読み込みと同期できないか？
-      progressStops.forEach((stop, idx) => {
-        _tl.to(svgProgress, { // 白circle
-          // strokeDashoffset → 右側にどれだけ押し込んでいるか
-          strokeDashoffset: svgPathLength - (svgPathLength * stop),
-          duration: 0.75,
-          ease: "glide",
-          delay: idx === 0 ? 0.3 : 0.3 + (Math.random() * 0.2), // 0.3 + 0から0.02の範囲で差を付ける
-        })
-      });
-
-      _tl
-      .to("#js-loader-logo", { // ロゴ
-        opacity: 0,
-        duration: .35,
-        ease: "power1.out",
-      }, "-=0.25") // 直前のトゥイーンの終了に何秒だけ重ねるか
-      .to(preloaderBtn, { // 中央の円のコンテナ
-        scale: .9,
-        duration: 1.5,
-        ease: "hop",
-      }, "-=0.5")
-      .to("#js-loader-start .line", { // "start"
-        y: "0%",
-        duration: 0.75,
-        ease: "power3.out",
-        onComplete: () => {
-          preloaderComplete = true;
-        }
-      }, "-=0.75")
-      .call(() => {
-        ////////////////////////////////////////////////////////////////
-        // ⭐️ カーソルの初期化
-        ////////////////////////////////////////////////////////////////
-        document.body.style.cursor = "auto";
-        // mouse.$.svg.classList.add("is-visible");
-        
-        mouse.init(false, true); // デフォルトのカーソルを隠すかどうか、svgカーソルを挿入するかどうか
-        // if(mouse.$.svg) mouse.$.svg.classList.add("is-visible")
-      
-        resolve(_tl);
-      });
-
-
-      // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-      // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-      // ⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから⭐️ここから
-      // リファクタリング
-      // → 別ファイルに分離中 ... 後にここは削除
-      
-      // ✅ 中央のコンテナクリック → これは、timelineから切り離された処理
-      svgProgress.addEventListener("pointerdown", () => { 
-        if(!preloaderComplete) return;
-
-        preloaderComplete = false;
-
-        const bulge = document.getElementById("js-bulge");
-        const menuBgSvg = document.querySelector(".menu-bg-svg"); // svg
-        const menuPath = document.getElementById("menu-path"); // path
-        const svgWidth = menuBgSvg.viewBox.baseVal.width; // 内部座標の幅
-        const svgHeight = menuBgSvg.viewBox.baseVal.height;
-        const svgCenterX = svgWidth / 2;
-
-        // 初期位置 全体を覆う
-        const OPEN_START = 
-        `M${svgWidth},${svgHeight} Q${svgCenterX},${svgHeight} 0,${svgHeight} L0,0 L${svgWidth},0 Z`
-
-        const exitTl = gsap.timeline();
-        exitTl
-        // .to("#js-loader", {
-        //   scale: 0.75,
-        //   duration: 1.25,
-        //   ease: "hop",
-        // })
-        .to([svgTrack, svgProgress], {
-          strokeDashoffset: -svgPathLength,
-          duration: 1.25,
-          ease: "hop",
-        }, "<")
-        .to(".p-svg-strokes svg", { // ⭐️svg自体をさらに270度プラスで回転
-          rotation: 540,
-          duration: 2,
-          ease: "hop",
-        }, "<")
-        .to("#js-loader-start .line", { // "start"
-          y: "-100%",
-          duration: 0.75,
-          ease: "power3.out",
-        }, "-=1.25")
-        .to("#js-loader-end .line", {
-          y: "0%",
-          duration: 0.75,
-          ease: "power3.out",
-        }, "-=0.75") // // 直前のトゥイーンの終了に何秒だけ重ねるか
-        .to("#js-loader", {
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)", // 上に上げる
-          duration: 1.5,
-          ease: "hop"
-        })
-        .to(menuPath, { // ⭐️ SVGのBulge
-          attr: { 
-            d: `M${svgWidth},345 Q${svgCenterX},620 0,345 L0,0 L${svgWidth},0 Z`
-          }, // 左サイドから下に沈める
-          ease: "power3.in",
-          duration: 0.5,
-          // delay: .1
-        })
-        .to(menuPath, {
-          attr: { 
-            d: `M${svgWidth},0 Q${svgCenterX},0 0,0 L0,0 L${svgWidth},0 Z`
-          }, // ビューポート下に一直線
-          ease: "power3.out",
-          duration: 0.5,
-        })
-        .to(["#js-loader", "#js-bulge"], { // .p-loader自体を非表示
-          display: "none",
-        })
-      });
-    })
-  })
-
+  // ✅ ローディングアニメーションに追加したい処理
+  // → svgのcircleアニメーションを渡す
+  loader.addLoadingAnimation(preloader.createAnimation());
 
   await loader.loadAllAssets(); // windowにテクスチャをキャッシュとして保持する。
                                 // 読み込むまで待機させる
